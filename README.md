@@ -1,3 +1,7 @@
 # Magic-Cat-Academy
-This is a project where I try to 'replicate' the Magic Cat Academy Google doodle game in Halloween 2016.
-You can check it out yourself here: https://doodles.google/doodle/halloween-2016/
+This is a project where I experiment with simple gestures recognition algorithms
+This is inspired by games that I loved playing:
++ The Magic Cat Academy Google Doodle game in Halloween 2016 by Google Doodle
++ Magic Touch: Wizard for hire by Nitrome
++ Other gesture recognition drawing games
+ 
