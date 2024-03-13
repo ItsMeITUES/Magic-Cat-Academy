@@ -1,0 +1,58 @@
+# depslib dependency file v1.0
+1710337225 source:e:\mca\main.cpp
+	"shapes.h"
+	"recognizer.h"
+	"comparer.h"
+
+1709799579 source:e:\mca\06_extension_libraries_and_loading_other_image_formats.cpp
+	<SDL.h>
+	<SDL_image.h>
+	<stdio.h>
+	<string>
+
+1710335249 e:\mca\shapes.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<string>
+
+1710335266 source:e:\mca\shapes.cpp
+	"shapes.h"
+	<fstream>
+
+1710324163 source:e:\mca\recog.cpp
+	"recog.h"
+
+1710267295 e:\mca\recogtest.h
+	<iostream>
+	<vector>
+
+1710268139 source:e:\mca\recogtest.cpp
+	<iostream>
+	<vector>
+	"recogtest.h"
+
+1710324187 e:\mca\recog.h
+	<iostream>
+	<vector>
+	<string>
+	<fstream>
+
+1710337328 source:e:\mca\comparer.cpp
+	"comparer.h"
+	"shapes.h"
+
+1710326662 e:\mca\comparer.h
+	<iostream>
+	<string>
+	"shapes.h"
+
+1710325832 source:e:\mca\recognizer.cpp
+	"recognizer.h"
+
+1710324187 e:\mca\recognizer.h
+	<iostream>
+	<vector>
+	<string>
+	<fstream>
+

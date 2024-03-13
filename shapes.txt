@@ -1,0 +1,28 @@
+7
+1 2 horizontal_line
+images\horizontal_line.png
+0 4
+
+2 2 vertical_line
+images\vertical_line.png
+2 6
+
+3 3 arrow_up
+images\arrow_up.png
+17 35 26
+
+4 3 arrow_down
+images\arrow_down.png
+71 53 62
+
+5 4 zed
+images\zed.png
+050 414 747 05670
+
+6 3 thunder
+images\thunder.png
+505 141 5670765
+
+7 2 circle
+images\circle.png
+456701234 076543210
