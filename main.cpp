@@ -6,6 +6,8 @@ const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 450;
 const std::string SCREEN_TITLE = "Magic Cat Academy";
 
+const int fps = 60;
+
 SDL_Window* gWindow = NULL;
 
 SDL_Renderer* gRenderer = NULL;
@@ -74,7 +76,7 @@ void loadShape(int& shapeCodeName, shapes Gesture[])
 {
     std::string path = Gesture[shapeCodeName].imgPath;
 
-    SDL_Texture* shapeTexture = IMG_LoadTexture(gRenderer, path.c_str());
+    SDL_Texture* shapeTexture = Gesture[shapeCodeName].texture;
 
     if(shapeTexture == NULL)
     {
@@ -119,7 +121,11 @@ void handleEvent(SDL_Event *e)
         isMouseDown = 0;
         processMouseMovement(mousePos, answer);
 
-        while(smoothAnswer(answer) || shortenAnswer(answer)){}
+        shortenAnswer(answer, 1);
+
+        while(smoothAnswer(answer) || shortenAnswer(answer, 0)){}
+
+        std::cout << answer << std::endl;
 
         int sh = getClosest(Gesture, answer);
         if(sh != -1)
@@ -145,6 +151,7 @@ SDL_Rect button_rect;
 
 int main(int arg, char* args[])
 {
+
     button_rect.x = 100;
     button_rect.y = 100;
     button_rect.w = 201;
@@ -154,7 +161,7 @@ int main(int arg, char* args[])
     else
     if(!loadMedia()) std::cout << "Failed to load media!";
     else
-    if(!loadShapeData(Gesture)) std::cout << "Failed to load shape data!";
+    if(!loadShapeData(Gesture, gRenderer)) std::cout << "Failed to load shape data!";
     else
     {
         bool quit = false;
@@ -166,6 +173,8 @@ int main(int arg, char* args[])
                 if(e.type == SDL_QUIT) {quit = true; break;}
                 handleEvent(&e);
             }
+
+            SDL_Delay(1000/fps);
 
             SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 

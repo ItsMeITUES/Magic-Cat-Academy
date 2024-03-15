@@ -7,17 +7,14 @@
 const int inf = 1e9;
 const int maxDrawWays = 5;
 const int shapeNum = 20;
-const int maxAllowedDiff = 3;
-
-
 
 struct shapes
 {
-    short codeName, codeCount;
+    short codeName, codeCount, maxDiff;
     std::string shapeName, imgPath;
     std::string codes[maxDrawWays];
     SDL_Texture* texture = NULL;
 };
 
-bool loadShapeData(shapes Gesture[]);
+bool loadShapeData(shapes Gesture[], SDL_Renderer* gRenderer);
 void destroyShapeTexture(shapes Gesture[]);

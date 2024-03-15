@@ -32,9 +32,15 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="SDL2.dll" />
-		<Unit filename="SDL2_image.dll" />
+		<Unit filename="comparer.cpp" />
+		<Unit filename="comparer.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="mousePos.inp" />
+		<Unit filename="recognizer.cpp" />
+		<Unit filename="recognizer.h" />
+		<Unit filename="shapes.cpp" />
+		<Unit filename="shapes.h" />
+		<Unit filename="shapes.txt" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

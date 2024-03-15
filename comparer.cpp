@@ -8,8 +8,6 @@ int checkMLD(std::string x, std::string y)
     x = " " + x;
     y = " " + y;
 
-    if(n < m) return 10;
-
     int dist[n + 5][m + 5];
     for(int i = 0; i <= n; i++) dist[i][0] = i;
     for(int j = 0; j <= m; j++) dist[0][j] = j;
@@ -18,7 +16,8 @@ int checkMLD(std::string x, std::string y)
     for(int j = 1; j <= m; j++)
     {
         if(x[i] == y[j]) dist[i][j] = dist[i - 1][j - 1];
-        else dist[i][j] = 1 + std::min(std::min(dist[i][j - 1], dist[i - 1][j]), dist[i - 1][j - 1]);
+        else
+            dist[i][j] = 1 + std::min(std::min(dist[i][j - 1], dist[i - 1][j]), dist[i - 1][j - 1]);
     }
 
     return dist[n][m];
@@ -36,6 +35,9 @@ int getClosest(shapes Gesture[], std::string& ans)
         int diff = inf;
         for(int j = 1; j <= Gesture[i].codeCount; j++)
             diff = std::min(diff, checkMLD(ans, Gesture[i].codes[j]));
+
+        if(diff > Gesture[i].maxDiff) diff = inf;
+        else
         if(diff < resultDiff)
         {
             resultCode = i;
@@ -43,7 +45,9 @@ int getClosest(shapes Gesture[], std::string& ans)
         }
     }
 
-    if(resultDiff > maxAllowedDiff) return -1;
+    std::cout << resultDiff << std::endl;
+
+    if(resultDiff == inf) return -1;
 
     return resultCode;
 }

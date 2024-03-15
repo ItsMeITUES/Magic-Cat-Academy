@@ -1,28 +1,28 @@
 7
-1 2 horizontal_line
+1 2 1 horizontal_line
 images\horizontal_line.png
 0 4
 
-2 2 vertical_line
+2 2 1 vertical_line
 images\vertical_line.png
 2 6
 
-3 3 arrow_up
+3 4 2 arrow_up
 images\arrow_up.png
-17 35 26
+17 35 26 107
 
-4 3 arrow_down
+4 4 2 arrow_down
 images\arrow_down.png
-71 53 62
+71 53 62 701
 
-5 4 zed
+5 4 2 zed
 images\zed.png
 050 414 747 05670
 
-6 3 thunder
+6 4 2 thunder
 images\thunder.png
-505 141 5670765
+505 141 5670765 67076
 
-7 2 circle
+7 2 2 circle
 images\circle.png
 456701234 076543210

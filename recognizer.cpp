@@ -20,6 +20,8 @@ void processMouseMovement(std::vector<Pos>& mouse, std::string& ansCode)
     int input_len = mouse.size();
 
     if(input_len > 1) ansCode = "";
+    else ansCode = "-1";
+//    std::cout << input_len << std::endl;
 
     for(int i = 0; i < input_len - 1; i++)
     {
@@ -42,6 +44,8 @@ void processMouseMovement(std::vector<Pos>& mouse, std::string& ansCode)
 //
 bool smoothAnswer(std::string& answer)
 {
+    if(answer == "-1") return 0;
+
     bool success = 0;
     int p = answer.size();
     if(p < 3) return 0;
@@ -67,25 +71,33 @@ bool smoothAnswer(std::string& answer)
 }
 
 //2222222 1111111555555 33333333
-bool shortenAnswer(std::string& answer)
+bool shortenAnswer(std::string& answer, short mode)
 {
+    if(answer == "-1") return 0;
+
     bool success = 0;
     int p = answer.size();
+
     std::string shorten = "";
 
     char now = answer[0];
+    int codeCount = 1;
 
     for(int i = 1; i < p; i++)
     {
         if(answer[i] == now)
         {
+            codeCount++;
             success = 1;
             continue;
         }
-        shorten = shorten + now;
+        if(mode == 0 || (codeCount >= minAllowedCount))
+            shorten = shorten + now;
         now = answer[i];
+        codeCount = 1;
     }
-    shorten = shorten + now;
+    if(mode == 0 || (codeCount >= minAllowedCount))
+        shorten = shorten + now;
     answer = shorten;
     return success;
 }
