@@ -1,6 +1,7 @@
 #include "shapes.h"
 #include "recognizer.h"
 #include "comparer.h"
+#include "enemy.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 450;
@@ -14,8 +15,6 @@ SDL_Renderer* gRenderer = NULL;
 
 SDL_Texture* gTexture = NULL;
 SDL_Texture* button = NULL;
-
-shapes Gesture[shapeNum];
 
 bool isMouseDown = 0;
 
@@ -64,7 +63,7 @@ bool loadMedia()
 {
     bool success = 1;
 
-    gTexture = IMG_LoadTexture(gRenderer, "images/Testing.png");
+    gTexture = IMG_LoadTexture(gRenderer, "images/backgrounds/Testing.png");
     if(gTexture == NULL) exit(0);
 
     SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
@@ -72,22 +71,20 @@ bool loadMedia()
     return success;
 }
 
-void loadShape(int& shapeCodeName, shapes Gesture[])
-{
-    std::string path = Gesture[shapeCodeName].imgPath;
+//void loadShape(int& shapeCodeName, shape shapeData[])
+//{
+//    SDL_Texture* shapeTexture = shapeData[shapeCodeName].texture;
+//
+//    if(shapeTexture == NULL)
+//    {
+//        std::cout << "Unable to load texture!";
+//        return;
+//    }
+//
+//    button = shapeTexture;
+//}
 
-    SDL_Texture* shapeTexture = Gesture[shapeCodeName].texture;
-
-    if(shapeTexture == NULL)
-    {
-        std::cout << "Unable to load texture!";
-        return;
-    }
-
-    button = shapeTexture;
-}
-
-void close()
+void close(shape shapeData[], Enemy enemyData[])
 {
     SDL_DestroyTexture(gTexture);
     gTexture = NULL;
@@ -95,7 +92,8 @@ void close()
     SDL_DestroyTexture(button);
     button = NULL;
 
-    destroyShapeTexture(Gesture);
+    destroyShapeTexture(shapeData);
+    destroyEnemyTexture(enemyData);
 
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);
@@ -109,7 +107,7 @@ void close()
 std::vector<Pos> mousePos;
 std::string answer = "-1";
 
-void handleEvent(SDL_Event *e)
+void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone> &enemies)
 {
     if(e->type == SDL_MOUSEBUTTONDOWN)
     {
@@ -121,17 +119,17 @@ void handleEvent(SDL_Event *e)
         isMouseDown = 0;
         processMouseMovement(mousePos, answer);
 
-        shortenAnswer(answer, 1);
+        smoothenAnswer(answer);
+        shortenAnswer(answer);
 
-        while(smoothAnswer(answer) || shortenAnswer(answer, 0)){}
+//        std::cout << answer << std::endl;
 
-        std::cout << answer << std::endl;
-
-        int sh = getClosest(Gesture, answer);
-        if(sh != -1)
+        int finalCode = getClosest(shapeData, answer);
+        if(finalCode != -1)
         {
-            std::cout << Gesture[sh].shapeName << std::endl;
-            loadShape(sh, Gesture);
+            std::cout << finalCode << " " << shapeData[finalCode].shapeName << std::endl;
+            damageEnemy(enemies, finalCode);
+//            loadShape(sh, shapeData);
         }
 
         mousePos.clear();
@@ -151,39 +149,46 @@ SDL_Rect button_rect;
 
 int main(int arg, char* args[])
 {
+//    button_rect.x = 100;
+//    button_rect.y = 100;
+//    button_rect.w = 201;
+//    button_rect.h = 181;
 
-    button_rect.x = 100;
-    button_rect.y = 100;
-    button_rect.w = 201;
-    button_rect.h = 181;
+    Enemy enemyData[5];
+    std::vector<EnemyClone> enemies;
 
-    if(!init()) std::cout << "Failed to initialize!";
-    else
-    if(!loadMedia()) std::cout << "Failed to load media!";
-    else
-    if(!loadShapeData(Gesture, gRenderer)) std::cout << "Failed to load shape data!";
-    else
+    shape shapeData[10];
+
+    if(!init()) {std::cout << "Failed to initialize!"; return 0;}
+    if(!loadMedia()) {std::cout << "Failed to load media!"; return 0;}
+    if(!loadShapeData(shapeData, gRenderer)) {std::cout << "Failed to load shape data!";return 0;}
+    if(!loadEnemyData(enemyData, gRenderer)) {std::cout << "Failed to load shape data!";return 0;}
+
+    bool quit = false;
+    SDL_Event e;
+    while(!quit)
     {
-        bool quit = false;
-        SDL_Event e;
-        while(!quit)
+        SDL_RenderClear(gRenderer);
+
+        while(SDL_PollEvent(&e))
         {
-            while(SDL_PollEvent(&e))
-            {
-                if(e.type == SDL_QUIT) {quit = true; break;}
-                handleEvent(&e);
-            }
-
-            SDL_Delay(1000/fps);
-
-            SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
-
-            SDL_RenderCopy(gRenderer, button, NULL, &button_rect);
-
-            SDL_RenderPresent(gRenderer);
-//            SDL_RenderClear(gRenderer);
+            if(e.type == SDL_QUIT) {quit = true; break;}
+            handleEvent(&e, shapeData, enemies);
         }
+
+        SDL_Delay(1000/fps);
+
+        SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
+
+//            SDL_RenderCopy(gRenderer, button, NULL, &button_rect);
+        enemySpawner(enemyData, enemies, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        handleBasicEnemy(enemies);
+
+        drawEnemy(shapeData, enemyData, enemies, gRenderer);
+
+        SDL_RenderPresent(gRenderer);
     }
-    close();
+    close(shapeData, enemyData);
     return 0;
 }

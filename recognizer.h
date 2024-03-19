@@ -22,6 +22,5 @@ const double sliceBorderTan[] =
 };
 void addCalculated(std::string& directionCode, double& dir, double& difX, double& difY);
 void processMouseMovement(std::vector<Pos>& mouse, std::string& ansCode);
-bool smoothAnswer(std::string& answer);
-bool shortenAnswer(std::string& answer, short mode);
-void smootherAnswer(std::string& answer);
+bool smoothenAnswer(std::string& answer);
+bool shortenAnswer(std::string& answer);

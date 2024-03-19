@@ -1,0 +1,7 @@
+1
+
+1
+normalGhost
+1 1 2
+images/enemy/basic_normal.png
+197 253

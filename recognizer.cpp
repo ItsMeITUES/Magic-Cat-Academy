@@ -42,7 +42,7 @@ void processMouseMovement(std::vector<Pos>& mouse, std::string& ansCode)
 }
 
 //
-bool smoothAnswer(std::string& answer)
+bool smoothenAnswer(std::string& answer)
 {
     if(answer == "-1") return 0;
 
@@ -50,28 +50,23 @@ bool smoothAnswer(std::string& answer)
     int p = answer.size();
     if(p < 3) return 0;
 
-    std::string smoothed = "";
-
-    char x = answer[0];
-    smoothed = smoothed + x;
-
     for(int i = 1; i < p - 1; i++)
     {
-        if(std::abs((answer[i] - answer[i - 1] + 1) % sliceNum - 1) != 1
-        || std::abs((answer[i] - answer[i + 1] + 1) % sliceNum - 1) != 1
-        || answer[i - 1] != answer[i + 1])
-            smoothed = smoothed + answer[i];
-        else success = 1;
-    }
-    x = answer[p - 1];
-    smoothed = smoothed + x;
+        if(answer[i] % 2) continue;
 
-    answer = smoothed;
+        if(std::abs((answer[i] - answer[i - 1] + 1) % sliceNum - 1) == 1
+        && std::abs((answer[i] - answer[i + 1] + 1) % sliceNum - 1) == 1
+        && answer[i - 1] == answer[i + 1])
+        {
+            answer[i] = answer[i - 1];
+            success = 1;
+        }
+    }
     return success;
 }
 
 //2222222 1111111555555 33333333
-bool shortenAnswer(std::string& answer, short mode)
+bool shortenAnswer(std::string& answer)
 {
     if(answer == "-1") return 0;
 
@@ -91,93 +86,13 @@ bool shortenAnswer(std::string& answer, short mode)
             success = 1;
             continue;
         }
-        if(mode == 0 || (codeCount >= minAllowedCount))
+        if(codeCount >= minAllowedCount)
             shorten = shorten + now;
         now = answer[i];
         codeCount = 1;
     }
-    if(mode == 0 || (codeCount >= minAllowedCount))
+    if(codeCount >= minAllowedCount)
         shorten = shorten + now;
     answer = shorten;
     return success;
 }
-
-// 76767676 12121212
-void smootherAnswer(std::string& answer)
-{
-    int p = answer.size();
-
-    std::string smoothed = "";
-
-    int index = 0;
-    char x = '-', y = '-';
-    bool isSet = 0;
-    bool odd = 0;
-
-    while(index < p && (answer[index] - '0') % 2 == 0)
-    {
-        smoothed = smoothed + answer[index];
-        index++;
-    }
-//    std::cout << answer << std::endl;
-    while(index < p)
-    {
-        if((answer[index] - '0') % 2 == 1)
-        {
-            if(isSet)
-            {
-                if(answer[index] == x)
-                {
-                    odd = 0;
-                    index++;
-                    continue;
-                }
-                if(x != '-')
-                {
-                    smoothed = smoothed + x;
-                    if(y != x && y != '-') smoothed += y;
-                }
-            }
-            else isSet = 1;
-
-            x = answer[index];
-            y = answer[index];
-        }
-        else
-        {
-            if(isSet)
-            {
-                if(std::abs((answer[index] - x + 1) % sliceNum - 1) <= 1)
-                {
-                    if((y == x || answer[index] == y) && !odd)
-                    {
-                        y = answer[index];
-                        odd = 1;
-                    }
-                    else
-                    {
-                        smoothed = smoothed + x;
-                        smoothed = smoothed + y;
-                        isSet = 0;
-                        odd = 0;
-                    }
-                }
-                else
-                {
-                    smoothed = smoothed + x;
-                    isSet = 0;
-                    odd = 0;
-                }
-            }
-            else smoothed = smoothed + answer[index];
-        }
-        index++;
-    }
-    if(isSet) smoothed += x;
-
-//    std::cout << answer << std::endl;
-    answer = smoothed;
-    return;
-}
-
-

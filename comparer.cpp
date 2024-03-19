@@ -8,7 +8,7 @@ int checkMLD(std::string x, std::string y)
     x = " " + x;
     y = " " + y;
 
-    int dist[n + 5][m + 5];
+    int dist[n + 1][m + 1];
     for(int i = 0; i <= n; i++) dist[i][0] = i;
     for(int j = 0; j <= m; j++) dist[0][j] = j;
 
@@ -23,20 +23,25 @@ int checkMLD(std::string x, std::string y)
     return dist[n][m];
 }
 
-int getClosest(shapes Gesture[], std::string& ans)
+int getClosest(shape shapeData[], std::string& ans)
 {
     if(ans == "-1") return -1;
-    int Total = Gesture[0].codeCount;
+    int Total = shapeData[0].codeCount;
 
     int resultCode = -1, resultDiff = inf;
+
+//    std::cout << Total << std::endl;
 
     for(int i = 1; i <= Total; i++)
     {
         int diff = inf;
-        for(int j = 1; j <= Gesture[i].codeCount; j++)
-            diff = std::min(diff, checkMLD(ans, Gesture[i].codes[j]));
+        for(int j = 1; j <= shapeData[i].codeCount; j++)
+            diff = std::min(diff, checkMLD(ans, shapeData[i].codes[j]));
 
-        if(diff > Gesture[i].maxDiff) diff = inf;
+//        std::cout << shapeData[i].shapeName << std::endl;
+//        std::cout << diff << std::endl;
+
+        if(diff > shapeData[i].maxAllowedDiff) diff = inf;
         else
         if(diff < resultDiff)
         {
@@ -46,8 +51,9 @@ int getClosest(shapes Gesture[], std::string& ans)
     }
 
     std::cout << resultDiff << std::endl;
+//    std::cout << checkMLD("107", "17") << std::endl;
 
-    if(resultDiff == inf) return -1;
+    if(resultDiff == inf) resultCode = -1;
 
     return resultCode;
 }

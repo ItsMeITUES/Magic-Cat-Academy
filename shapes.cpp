@@ -1,12 +1,12 @@
 #include "shapes.h"
 #include <fstream>
 
-bool loadShapeData(shapes Gesture[], SDL_Renderer* gRenderer)
+bool loadShapeData(shape shapeData[], SDL_Renderer* gRenderer)
 {
     bool success = 1;
 
     std::ifstream inFile;
-    inFile.open("shapes.txt");
+    inFile.open("data/shapes.txt");
 
     if(!inFile)
      {
@@ -18,25 +18,32 @@ bool loadShapeData(shapes Gesture[], SDL_Renderer* gRenderer)
     int Total;
     inFile >> Total;
 
-    Gesture[0].codeName = Total;
-    Gesture[0].codeCount = Total;
+    shapeData[0].codeName = Total;
+    shapeData[0].codeCount = Total;
+
+//    std::cout << shapeData[0].codeCount << std::endl;
 
     for(int i = 1; i <= Total; i++)
     {
-        inFile >> Gesture[i].codeName >> Gesture[i].codeCount >> Gesture[i].maxDiff
-         >> Gesture[i].shapeName
-         >> Gesture[i].imgPath;
+        inFile >> shapeData[i].codeName >> shapeData[i].codeCount >> shapeData[i].maxAllowedDiff
+         >> shapeData[i].shapeName
+         >> shapeData[i].imgPath;
 
-        for(int j = 1; j <= Gesture[i].codeCount; j++)
-            inFile >> Gesture[i].codes[j];
+//         std::cout << shapeData[i].shapeName << std::endl;
 
-        Gesture[i].texture = IMG_LoadTexture(gRenderer, Gesture[i].imgPath.c_str());
-        if(Gesture[i].texture == NULL)
+        for(int j = 1; j <= shapeData[i].codeCount; j++)
+            inFile >> shapeData[i].codes[j];
+
+        shapeData[i].texture = IMG_LoadTexture(gRenderer, shapeData[i].imgPath.c_str());
+        if(shapeData[i].texture == NULL)
         {
             std::cout << "Failed to load shape texture! SDL_image error: " << IMG_GetError();
             success = 0;
             return success;
         }
+
+        shapeData[i].rect.w = 200;
+        shapeData[i].rect.h = 200;
     }
 
     inFile.close();
@@ -44,12 +51,12 @@ bool loadShapeData(shapes Gesture[], SDL_Renderer* gRenderer)
     return success;
 }
 
-void destroyShapeTexture(shapes Gesture[])
+void destroyShapeTexture(shape shapeData[])
 {
-    int Total = Gesture[0].codeCount;
+    int Total = shapeData[0].codeCount;
     for(int i = 1; i <= Total; i++)
     {
-        SDL_DestroyTexture(Gesture[i].texture);
-        Gesture[i].texture = NULL;
+        SDL_DestroyTexture(shapeData[i].texture);
+        shapeData[i].texture = NULL;
     }
 }
