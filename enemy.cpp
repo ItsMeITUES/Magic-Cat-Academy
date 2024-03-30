@@ -134,7 +134,7 @@ void enemySpawner(Enemy enemyData[], std::vector<EnemyClone>& enemies, int Scree
     }
 }
 
-void damageEnemy(std::vector<EnemyClone> &enemies, int code)
+void damageEnemy(std::vector<EnemyClone>& enemies, int code)
 {
     int totalEnemy = enemies.size();
     std::vector<EnemyClone> updatedEnemies;
@@ -143,28 +143,39 @@ void damageEnemy(std::vector<EnemyClone> &enemies, int code)
 
     for(int i = 0; i < totalEnemy; i++)
     {
+//        std::cout << i << std::endl;
         std::string calculatedHP = "*";
 
 //        std::cout << enemies[i].hpBar << " ";
 
+//        if(enemies[i].hpBar[1] - '0' == code)
+//        {
+//            enemies[i].hpBar.erase(1, 1);
+//            enemies[i].health -= 1;
+//        }
         for(int j = 1; j <= enemies[i].health; j++)
         {
             if(enemies[i].hpBar[j] - '0' != code)
                 calculatedHP += enemies[i].hpBar[j];
         }
+//        std::cout << "aaa" << calculatedHP << "aaa" << enemies[i].hpBar << "aaa" << std::endl;
+        enemies[i].health = calculatedHP.size() - 1;
         enemies[i].hpBar = calculatedHP;
-
-//        std::cout << "aaa" << calculatedHP << "aaa" << "a" << "aaa" << std::endl;
 //        std::cout << (calculatedHP == "*") << std::endl;
-        if(calculatedHP != "*" ) updatedEnemies.push_back(enemies[i]);
+//        if(calculatedHP != "*" ) updatedEnemies.push_back(enemies[i]);
+        if(enemies[i].health > 0) updatedEnemies.push_back(enemies[i]);
 //        else std::cout << "aa" << updatedEnemies.size() << std::endl;
 //        std::cout << i << enemies[i].moveX << " " << enemies[i].moveY << std::endl;
     }
 //    std::cout << std::endl;
 
 //    std::cout << (enemies.size()) - (updatedEnemies.size()) << std::endl;
-//    enemies.clear();
-    enemies = updatedEnemies;
+    enemies.clear();
+    for(EnemyClone ec : updatedEnemies)
+    {
+//        std::cout << ec.hpBar << std::endl;
+        enemies.push_back(ec);
+    }
 }
 
 void drawEnemy(shape shapeData[], Enemy enemyData[], std::vector<EnemyClone>& enemies, SDL_Renderer* gRenderer)
@@ -186,12 +197,18 @@ void drawEnemy(shape shapeData[], Enemy enemyData[], std::vector<EnemyClone>& en
         hpRect.w = scaler * shapeData[1].rect.w;
         hpRect.h = scaler * shapeData[1].rect.h;
 
-        hpRect.x = enemies[i].posX + enemies[i].rect.w / 2 - hpRect.w / 2;
+        hpRect.x = enemies[i].posX ;
         hpRect.y = enemies[i].posY - hpRect.h;
+
+        if(enemies[i].health % 2) hpRect.x -= hpRect.w / 2;
+        hpRect.x -= (enemies[i].health) / 2 * hpRect.w;
+
+//        std::cout << enemies[i].health << " " << hpRect.x << " " << hpRect.y << std::endl;
 
         for(int j = 1; j <= enemies[i].health; j++)
         {
             int healthCode = enemies[i].hpBar[j] - '0';
+            hpRect.x += hpRect.w;
             SDL_RenderCopy(gRenderer, shapeData[healthCode].texture, NULL, &hpRect);
         }
     }

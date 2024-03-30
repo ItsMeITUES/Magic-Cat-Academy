@@ -9,7 +9,7 @@
 #include <random>
 #include <time.h>
 
-const int basicEnemyDelay = 1000;
+const int basicEnemyDelay = 100;
 const int scaleDown = 5;
 
 enum enemyType
@@ -45,6 +45,6 @@ void handleBasicEnemy(std::vector<EnemyClone>& enemies);
 void enemySpawner(Enemy enemyData[], std::vector<EnemyClone>& enemies, int ScreenW, int ScreenH);
 void drawEnemy(shape shapeData[], Enemy enemyData[], std::vector<EnemyClone>& enemies, SDL_Renderer* gRenderer);
 
-void damageEnemy(std::vector<EnemyClone> &enemies, int code);
+void damageEnemy(std::vector<EnemyClone>& enemies, int code);
 
 void destroyEnemyTexture(Enemy enemyData[]);

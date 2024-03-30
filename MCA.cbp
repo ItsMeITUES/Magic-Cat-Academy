@@ -34,13 +34,15 @@
 		</Compiler>
 		<Unit filename="comparer.cpp" />
 		<Unit filename="comparer.h" />
+		<Unit filename="data/enemy.txt" />
+		<Unit filename="data/shapes.txt" />
+		<Unit filename="enemy.cpp" />
+		<Unit filename="enemy.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="mousePos.inp" />
 		<Unit filename="recognizer.cpp" />
 		<Unit filename="recognizer.h" />
 		<Unit filename="shapes.cpp" />
 		<Unit filename="shapes.h" />
-		<Unit filename="shapes.txt" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
