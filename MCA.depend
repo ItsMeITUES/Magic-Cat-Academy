@@ -1,9 +1,11 @@
 # depslib dependency file v1.0
-1711743586 source:e:\mca\main.cpp
+1713892417 source:e:\mca\main.cpp
 	"shapes.h"
 	"recognizer.h"
 	"comparer.h"
 	"enemy.h"
+	"player.h"
+	"animation.h"
 
 1709799579 source:e:\mca\06_extension_libraries_and_loading_other_image_formats.cpp
 	<SDL.h>
@@ -11,7 +13,7 @@
 	<stdio.h>
 	<string>
 
-1710837956 e:\mca\shapes.h
+1713841480 e:\mca\shapes.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -43,7 +45,7 @@
 	"comparer.h"
 	"shapes.h"
 
-1710762491 e:\mca\comparer.h
+1712808186 e:\mca\comparer.h
 	<iostream>
 	<string>
 	"shapes.h"
@@ -51,17 +53,17 @@
 1710697998 source:e:\mca\recognizer.cpp
 	"recognizer.h"
 
-1710697764 e:\mca\recognizer.h
+1712808064 e:\mca\recognizer.h
 	<iostream>
 	<vector>
 	<string>
 	<fstream>
 
-1711743706 source:e:\mca\enemy.cpp
+1712129017 source:e:\mca\enemy.cpp
 	"enemy.h"
 	<fstream>
 
-1711742295 e:\mca\enemy.h
+1712808020 e:\mca\enemy.h
 	"shapes.h"
 	<iostream>
 	<SDL.h>
@@ -71,4 +73,23 @@
 	<cmath>
 	<random>
 	<time.h>
+
+1713890911 source:e:\mca\player.cpp
+	"player.h"
+	<fstream>
+
+1713883893 e:\mca\player.h
+	"shapes.h"
+	"animation.h"
+
+1713890656 source:e:\mca\animation.cpp
+	"animation.h"
+	<SDL_image.h>
+
+1713892468 e:\mca\animation.h
+	<iostream>
+	<string>
+	<vector>
+	<SDL.h>
+	<SDL_image.h>
 

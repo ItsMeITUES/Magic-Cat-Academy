@@ -1,4 +1,7 @@
-#pragma once
+#ifndef __SHAPE
+
+#define __SHAPE
+
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -19,3 +22,5 @@ struct shape
 
 bool loadShapeData(shape shapeData[], SDL_Renderer* gRenderer);
 void destroyShapeTexture(shape shapeData[]);
+
+#endif // __SHAPE

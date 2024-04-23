@@ -1,0 +1,7 @@
+1
+
+1 blackCat
+5 3 4
+0
+images/cat/blackCat.png
+207 187

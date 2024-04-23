@@ -65,7 +65,7 @@ EnemyClone spawnEnemy(Enemy enemyData[], enemyType type, int spawnX, int spawnY,
 
     for(int i = 1; i <= now.health; i++)
     {
-        now.hpBar += char(rand() % 4 + '1');
+        now.hpBar += char(rand() % healthType + '1');
     }
 
     now.rect.x = spawnX;
@@ -79,7 +79,9 @@ EnemyClone spawnEnemy(Enemy enemyData[], enemyType type, int spawnX, int spawnY,
 
     double distance = sqrt(diffX * diffX + diffY * diffY);
 
-    double spd = now.speed;
+    double spdScaler = 1;
+
+    double spd = now.speed * spdScaler;
 
     now.moveX = (spd / distance) * diffX;
     now.moveY = (spd / distance) * diffY;
@@ -153,16 +155,15 @@ void damageEnemy(std::vector<EnemyClone>& enemies, int code)
 //            enemies[i].hpBar.erase(1, 1);
 //            enemies[i].health -= 1;
 //        }
+
         for(int j = 1; j <= enemies[i].health; j++)
         {
             if(enemies[i].hpBar[j] - '0' != code)
                 calculatedHP += enemies[i].hpBar[j];
         }
-//        std::cout << "aaa" << calculatedHP << "aaa" << enemies[i].hpBar << "aaa" << std::endl;
         enemies[i].health = calculatedHP.size() - 1;
         enemies[i].hpBar = calculatedHP;
-//        std::cout << (calculatedHP == "*") << std::endl;
-//        if(calculatedHP != "*" ) updatedEnemies.push_back(enemies[i]);
+
         if(enemies[i].health > 0) updatedEnemies.push_back(enemies[i]);
 //        else std::cout << "aa" << updatedEnemies.size() << std::endl;
 //        std::cout << i << enemies[i].moveX << " " << enemies[i].moveY << std::endl;

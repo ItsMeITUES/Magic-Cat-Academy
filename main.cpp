@@ -2,6 +2,8 @@
 #include "recognizer.h"
 #include "comparer.h"
 #include "enemy.h"
+#include "player.h"
+#include "animation.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 450;
@@ -36,7 +38,7 @@ bool init()
         }
         else
         {
-            gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+            gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
             if(gRenderer == NULL)
             {
                 std::cout << "Cannot create Renderer! SDL Error: " << SDL_GetError();
@@ -110,7 +112,7 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
         int finalCode = getClosest(shapeData, answer);
         if(finalCode != -1)
         {
-            std::cout << finalCode << " " << shapeData[finalCode].shapeName << std::endl;
+//            std::cout << finalCode << " " << shapeData[finalCode].shapeName << std::endl;
             damageEnemy(enemies, finalCode);
 //            loadShape(sh, shapeData);
         }
@@ -130,21 +132,28 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
 
 int main(int arg, char* args[])
 {
-
     Enemy enemyData[5];
     std::vector<EnemyClone> enemies;
 
     shape shapeData[10];
 
+    Player playerData[10];
+    Cat cat;
+
     if(!init()) {std::cout << "Failed to initialize!"; return 0;}
     if(!loadMedia()) {std::cout << "Failed to load media!"; return 0;}
     if(!loadShapeData(shapeData, gRenderer)) {std::cout << "Failed to load shape data!";return 0;}
     if(!loadEnemyData(enemyData, gRenderer)) {std::cout << "Failed to load enemy data!";return 0;}
+    if(!loadPlayerData(playerData, gRenderer)) {std::cout << "Failed to load player data!";return 0;}
+
+    selectPlayer(1, cat, playerData, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     bool quit = false;
     SDL_Event e;
     while(!quit)
     {
+        int prevTime = SDL_GetTicks();
+
         SDL_RenderClear(gRenderer);
 
         while(SDL_PollEvent(&e))
@@ -152,8 +161,6 @@ int main(int arg, char* args[])
             if(e.type == SDL_QUIT) {quit = true; break;}
             handleEvent(&e, shapeData, enemies);
         }
-
-        SDL_Delay(1000/fps);
 
         SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 
@@ -163,7 +170,14 @@ int main(int arg, char* args[])
 
         drawEnemy(shapeData, enemyData, enemies, gRenderer);
 
+//        drawPlayer(cat, gRenderer, playerData);
+
+        playAnimation(playerData[cat.id].anim, gRenderer);
+
         SDL_RenderPresent(gRenderer);
+
+        double processTime = SDL_GetTicks() - prevTime;
+        SDL_Delay(1000/fps - 0.001 * processTime);
     }
     close(shapeData, enemyData);
     return 0;

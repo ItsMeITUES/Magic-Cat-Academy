@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ENEMY
+#define __ENEMY
+
 #include "shapes.h"
 #include <iostream>
 #include <SDL.h>
@@ -9,8 +11,9 @@
 #include <random>
 #include <time.h>
 
-const int basicEnemyDelay = 100;
+const int basicEnemyDelay = 3000;
 const int scaleDown = 5;
+const int healthType = 7;
 
 enum enemyType
 {
@@ -48,3 +51,5 @@ void drawEnemy(shape shapeData[], Enemy enemyData[], std::vector<EnemyClone>& en
 void damageEnemy(std::vector<EnemyClone>& enemies, int code);
 
 void destroyEnemyTexture(Enemy enemyData[]);
+
+#endif // __ENEMY

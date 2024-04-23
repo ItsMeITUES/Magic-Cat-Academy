@@ -35,10 +35,13 @@
 		<Unit filename="comparer.cpp" />
 		<Unit filename="comparer.h" />
 		<Unit filename="data/enemy.txt" />
+		<Unit filename="data/player.txt" />
 		<Unit filename="data/shapes.txt" />
 		<Unit filename="enemy.cpp" />
 		<Unit filename="enemy.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="player.cpp" />
+		<Unit filename="player.h" />
 		<Unit filename="recognizer.cpp" />
 		<Unit filename="recognizer.h" />
 		<Unit filename="shapes.cpp" />

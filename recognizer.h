@@ -1,3 +1,6 @@
+#ifndef __RECOG
+#define __RECOG
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -24,3 +27,5 @@ void addCalculated(std::string& directionCode, double& dir, double& difX, double
 void processMouseMovement(std::vector<Pos>& mouse, std::string& ansCode);
 bool smoothenAnswer(std::string& answer);
 bool shortenAnswer(std::string& answer);
+
+#endif // __RECOG
