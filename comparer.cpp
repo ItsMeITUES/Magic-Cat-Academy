@@ -1,5 +1,4 @@
 #include "comparer.h"
-#include "shapes.h"
 
 int checkMLD(std::string x, std::string y)
 {
@@ -50,7 +49,7 @@ int getClosest(shape shapeData[], std::string& ans)
         }
     }
 
-    std::cout << resultDiff << std::endl;
+//    std::cout << resultDiff << std::endl;
 //    std::cout << checkMLD("107", "17") << std::endl;
 
     if(resultDiff == inf) resultCode = -1;

@@ -34,35 +34,44 @@ bool loadPlayerData(Player playerData[], SDL_Renderer* gRenderer)
         std::string path;
         inFile >> path;
 
-        playerData[i].texture = IMG_LoadTexture(gRenderer, path.c_str());
-        if(playerData[i].texture == NULL)
-        {
-            std::cout << "Failed to load player texture! SDL_image error: " << IMG_GetError();
-            success = 0;
-            return success;
-        }
-
         inFile >> playerData[i].rect.w;
         inFile >> playerData[i].rect.h;
     }
+    inFile.close();
 
+    // idle
     Animation test;
     test.path = "animation/blackCat/blackCat_idle.png";
     test.spritePerRow = 5;
     test.frameCount = 25;
+    test.framePerSecond = 10;
     test.frameSize.w = 208;
     test.frameSize.h = 188;
 
     loadAnimation(test, gRenderer);
 
-    playerData[1].anim = test;
+    playerData[1].idle = test;
 
-    inFile.close();
+    // cast
+    test.path = "animation/blackCat/blackCat_cast.png";
+    test.spritePerRow = 5;
+    test.frameCount = 5;
+    test.framePerSecond = 10;
+    test.frameSize.w = 208;
+    test.frameSize.h = 188;
+
+    loadAnimation(test, gRenderer);
+
+    playerData[1].cast = test;
+
+    // hurt
+
+    // die
 
     return success;
 }
 
-void selectPlayer(int id, Cat& cat, Player playerData[], const int SCREEN_WIDTH, const int SCREEN_HEIGHT)
+void selectPlayer(int id, Cat& cat, Player playerData[], int x, int y)
 {
     cat.id = playerData[id].id;
     cat.name = playerData[id].name;
@@ -72,11 +81,11 @@ void selectPlayer(int id, Cat& cat, Player playerData[], const int SCREEN_WIDTH,
     cat.speed = playerData[id].speed;
 
     cat.special = playerData[id].special;
-    cat.posX = 200;
-    cat.posY = SCREEN_HEIGHT / 2;
+    cat.posX = x;
+    cat.posY = y;
 
-    playerData[id].anim.frameSize.x = cat.posX - playerData[id].anim.frameSize.w / 2;
-    playerData[id].anim.frameSize.y = cat.posY - playerData[id].anim.frameSize.h / 2;
+//    playerData[id].anim.frameSize.x = cat.posX;
+//    playerData[id].anim.frameSize.y = cat.posY;
 }
 
 //void drawPlayer(Cat& cat, SDL_Renderer* gRenderer, Player playerData[])

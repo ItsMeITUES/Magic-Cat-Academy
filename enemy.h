@@ -2,6 +2,8 @@
 #define __ENEMY
 
 #include "shapes.h"
+#include "animation.h"
+
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -11,8 +13,10 @@
 #include <random>
 #include <time.h>
 
+const int overDistance = 10;
+
 const int basicEnemyDelay = 3000;
-const int scaleDown = 5;
+const int scaleDown = 4;
 const int healthType = 7;
 
 enum enemyType
@@ -29,6 +33,8 @@ struct Enemy
     int spawnCD, health, speed;
     SDL_Texture* texture = NULL;
     SDL_Rect rect;
+
+    Animation idle, hurt, die;
 };
 
 struct EnemyClone
@@ -42,10 +48,13 @@ struct EnemyClone
 };
 
 bool loadEnemyData(Enemy enemyData[], SDL_Renderer* gRenderer);
+
 EnemyClone spawnEnemy(Enemy enemyData[], enemyType type, int spawnX, int spawnY, int desX, int desY);
-void handleBasicEnemy(std::vector<EnemyClone>& enemies);
+
+void handleBasicEnemy(std::vector<EnemyClone>& enemies, int& gameState);
 
 void enemySpawner(Enemy enemyData[], std::vector<EnemyClone>& enemies, int ScreenW, int ScreenH);
+
 void drawEnemy(shape shapeData[], Enemy enemyData[], std::vector<EnemyClone>& enemies, SDL_Renderer* gRenderer);
 
 void damageEnemy(std::vector<EnemyClone>& enemies, int code);

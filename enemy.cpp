@@ -1,6 +1,9 @@
 #include "enemy.h"
 #include <fstream>
 
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 450;
+
 bool loadEnemyData(Enemy enemyData[], SDL_Renderer* gRenderer)
 {
     srand(time(NULL));
@@ -93,7 +96,7 @@ EnemyClone spawnEnemy(Enemy enemyData[], enemyType type, int spawnX, int spawnY,
     return now;
 }
 
-void handleBasicEnemy(std::vector<EnemyClone>& enemies)
+void handleBasicEnemy(std::vector<EnemyClone>& enemies, int& gameState)
 {
     int totalEnemy = enemies.size();
     for(int i = 0; i < totalEnemy; i++)
@@ -102,6 +105,18 @@ void handleBasicEnemy(std::vector<EnemyClone>& enemies)
         enemies[i].posY += enemies[i].moveY;
         enemies[i].rect.x = enemies[i].posX;
         enemies[i].rect.y = enemies[i].posY;
+
+        double dx = (enemies[i].posX - SCREEN_WIDTH / 2);
+        double dy = (enemies[i].posY - SCREEN_HEIGHT / 2);
+
+        if(dx * dx + dy * dy <= overDistance * overDistance)
+        {
+            gameState = 2;
+
+            enemies.clear();
+
+            return;
+        }
 //        std::cout << i << enemies[i].moveX << " " << enemies[i].moveY << std::endl;
     }
 }

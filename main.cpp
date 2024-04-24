@@ -2,8 +2,9 @@
 #include "recognizer.h"
 #include "comparer.h"
 #include "enemy.h"
-#include "player.h"
 #include "animation.h"
+#include "player.h"
+#include "button.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 450;
@@ -11,11 +12,29 @@ const std::string SCREEN_TITLE = "Magic Cat Academy";
 
 const int fps = 60;
 
+double player_scale = 0.5;
+double play_button_scale = 0.5;
+double restart_button_scale = 0.5;
+double home_button_scale = 0.5;
+
+int gameState = 0;
+// 0 - start menu
+// 1 - playing
+// 2 - game over
+
+int totalScore = 0;
+
 SDL_Window* gWindow = NULL;
 
 SDL_Renderer* gRenderer = NULL;
 
-SDL_Texture* gTexture = NULL;
+SDL_Texture* gameStart = NULL;
+SDL_Texture* gamePlay = NULL;
+SDL_Texture* gameOver = NULL;
+
+button playButton;
+button restartButton;
+button homeButton;
 
 bool isMouseDown = 0;
 
@@ -64,21 +83,62 @@ bool loadMedia()
 {
     bool success = 1;
 
-    gTexture = IMG_LoadTexture(gRenderer, "images/backgrounds/Testing.png");
-    if(gTexture == NULL) exit(0);
+    gameStart = IMG_LoadTexture(gRenderer, "images/backgrounds/gameStart.png");
 
-    SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
+    if(gameStart == NULL) std::cout << "SDL_IMG Error: " << IMG_GetError() << std::endl;
+
+    gamePlay = IMG_LoadTexture(gRenderer, "images/backgrounds/gamePlay.png");
+
+    if(gamePlay == NULL) std::cout << "SDL_IMG Error: " << IMG_GetError() << std::endl;
+
+    gameOver = IMG_LoadTexture(gRenderer, "images/backgrounds/gameOver.png");
+
+    if(gameOver == NULL) std::cout << "SDL_IMG Error: " << IMG_GetError() << std::endl;
+
+    playButton.path = "images/button/play_button.png";
+    playButton.type = "circle";
+    playButton.scaler = play_button_scale;
+    playButton.setRect(0, 0, 200, 200);
+    playButton.setPos(350, 270);
+    playButton.texture.loadFromFile(playButton.path, gRenderer);
+
+    restartButton.path = "images/button/restart_button.png";
+    restartButton.type = "circle";
+    restartButton.scaler = restart_button_scale;
+    restartButton.setRect(0, 0, 200, 200);
+    restartButton.setPos(525, 300);
+    restartButton.texture.loadFromFile(restartButton.path, gRenderer);
+
+    homeButton.path = "images/button/home_button.png";
+    homeButton.type = "circle";
+    homeButton.scaler = home_button_scale;
+    homeButton.setRect(0, 0, 200, 200);
+    homeButton.setPos(670, 300);
+    homeButton.texture.loadFromFile(homeButton.path, gRenderer);
+
+//    SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
+
+//    std::cout << playButton.rect.w << playButton.rect.h << std::endl;
+
+//    playButton.texture.render(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, gRenderer, &playButton.rect, play_button_scale);
 
     return success;
 }
 
-void close(shape shapeData[], Enemy enemyData[])
+void close(shape shapeData[], Enemy enemyData[], Player playerData[])
 {
-    SDL_DestroyTexture(gTexture);
-    gTexture = NULL;
+    SDL_DestroyTexture(gameStart);
+    gameStart = NULL;
+
+    SDL_DestroyTexture(gamePlay);
+    gamePlay = NULL;
+
+    SDL_DestroyTexture(gameOver);
+    gameOver = NULL;
 
     destroyShapeTexture(shapeData);
     destroyEnemyTexture(enemyData);
+//    destroyEnemyTexture(enemyData);
 
     SDL_DestroyRenderer(gRenderer);
     SDL_DestroyWindow(gWindow);
@@ -102,36 +162,111 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
     if(e->type == SDL_MOUSEBUTTONUP)
     {
         isMouseDown = 0;
-        processMouseMovement(mousePos, answer);
 
-        smoothenAnswer(answer);
-        shortenAnswer(answer);
-
-//        std::cout << answer << std::endl;
-
-        int finalCode = getClosest(shapeData, answer);
-        if(finalCode != -1)
+        switch(gameState)
         {
-//            std::cout << finalCode << " " << shapeData[finalCode].shapeName << std::endl;
-            damageEnemy(enemies, finalCode);
-//            loadShape(sh, shapeData);
+            case 0:
+            {
+                Pos mp;
+                SDL_GetMouseState(&mp.x, &mp.y);
+                if(isMouseOn(playButton, mp.x, mp.y)) playButton.mouseUpHere = 1;
+
+                if(playButton.mouseDownHere && playButton.mouseUpHere)
+                {
+                    gameState = 1;
+                }
+
+                playButton.mouseDownHere = 0;
+                playButton.mouseUpHere = 0;
+            }break;
+
+            case 1:
+            {
+                processMouseMovement(mousePos, answer);
+                smoothenAnswer(answer);
+                shortenAnswer(answer);
+
+        //        std::cout << answer << std::endl;
+
+                int finalCode = getClosest(shapeData, answer);
+                if(finalCode != -1)
+                {
+        //            std::cout << finalCode << " " << shapeData[finalCode].shapeName << std::endl;
+                    damageEnemy(enemies, finalCode);
+        //            loadShape(sh, shapeData);
+                }
+
+                mousePos.clear();
+                answer = "-1";
+            }break;
+
+            case 2:
+            {
+                Pos mp;
+                SDL_GetMouseState(&mp.x, &mp.y);
+                if(isMouseOn(restartButton, mp.x, mp.y)) restartButton.mouseUpHere = 1;
+
+                if(restartButton.mouseDownHere && restartButton.mouseUpHere)
+                {
+                    gameState = 1;
+                }
+
+                restartButton.mouseDownHere = 0;
+                restartButton.mouseUpHere = 0;
+
+                if(isMouseOn(homeButton, mp.x, mp.y)) homeButton.mouseUpHere = 1;
+
+                if(homeButton.mouseDownHere && homeButton.mouseUpHere)
+                {
+                    gameState = 0;
+                }
+
+                homeButton.mouseDownHere = 0;
+                homeButton.mouseUpHere = 0;
+            }break;
+
+            default:{}
         }
 
-        mousePos.clear();
-        answer = "-1";
+
     }
 
     if(isMouseDown)
     {
-        Pos mp;
-        SDL_GetMouseState(&mp.x, &mp.y);
-//        std::cout << mp.x << " " << mp.y << std::endl;
-        mousePos.push_back(mp);
+        switch(gameState)
+        {
+            case 0:
+            {
+                Pos mp;
+                SDL_GetMouseState(&mp.x, &mp.y);
+                if(isMouseOn(playButton, mp.x, mp.y)) playButton.mouseDownHere = 1;
+            } break;
+
+            case 1:
+            {
+                Pos mp;
+                SDL_GetMouseState(&mp.x, &mp.y);
+        //        std::cout << mp.x << " " << mp.y << std::endl;
+                mousePos.push_back(mp);
+            } break;
+
+            case 2:
+            {
+                Pos mp;
+                SDL_GetMouseState(&mp.x, &mp.y);
+                if(isMouseOn(restartButton, mp.x, mp.y)) restartButton.mouseDownHere = 1;
+                if(isMouseOn(homeButton, mp.x, mp.y)) homeButton.mouseDownHere = 1;
+            } break;
+
+            default:{}
+        }
     }
 }
 
 int main(int arg, char* args[])
 {
+    gameState = 0;
+
     Enemy enemyData[5];
     std::vector<EnemyClone> enemies;
 
@@ -146,7 +281,7 @@ int main(int arg, char* args[])
     if(!loadEnemyData(enemyData, gRenderer)) {std::cout << "Failed to load enemy data!";return 0;}
     if(!loadPlayerData(playerData, gRenderer)) {std::cout << "Failed to load player data!";return 0;}
 
-    selectPlayer(1, cat, playerData, SCREEN_WIDTH, SCREEN_HEIGHT);
+    selectPlayer(1, cat, playerData, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
     bool quit = false;
     SDL_Event e;
@@ -162,23 +297,50 @@ int main(int arg, char* args[])
             handleEvent(&e, shapeData, enemies);
         }
 
-        SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
+//        std::cout << gameState << std::endl;
 
-        enemySpawner(enemyData, enemies, SCREEN_WIDTH, SCREEN_HEIGHT);
+//        playButton.texture.render(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, gRenderer, &playButton.rect, playButton.scaler);
 
-        handleBasicEnemy(enemies);
+        switch(gameState)
+        {
+            case 0:
+            {
+                SDL_RenderCopy(gRenderer, gameStart, NULL, NULL);
+                playButton.texture.render(playButton.posX, playButton.posY, gRenderer, &playButton.rect, playButton.scaler);
+            }break;
 
-        drawEnemy(shapeData, enemyData, enemies, gRenderer);
+            case 1:
+            {
+                SDL_RenderCopy(gRenderer, gamePlay, NULL, NULL);
 
-//        drawPlayer(cat, gRenderer, playerData);
+                enemySpawner(enemyData, enemies, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        playAnimation(playerData[cat.id].anim, gRenderer);
+                handleBasicEnemy(enemies, gameState);
+
+                drawEnemy(shapeData, enemyData, enemies, gRenderer);
+
+                if(isMouseDown) playAnimation(playerData[cat.id].cast, gRenderer, cat.posX, cat.posY, player_scale);
+                else playAnimation(playerData[cat.id].idle, gRenderer, cat.posX, cat.posY, player_scale);
+            }break;
+
+            case 2:
+            {
+                SDL_RenderCopy(gRenderer, gameOver, NULL, NULL);
+
+                restartButton.texture.render(restartButton.posX, restartButton.posY, gRenderer, &restartButton.rect, restartButton.scaler);
+
+                homeButton.texture.render(homeButton.posX, homeButton.posY, gRenderer, &homeButton.rect, homeButton.scaler);
+            }break;
+
+            default:{}
+
+        }
 
         SDL_RenderPresent(gRenderer);
 
         double processTime = SDL_GetTicks() - prevTime;
         SDL_Delay(1000/fps - 0.001 * processTime);
     }
-    close(shapeData, enemyData);
+    close(shapeData, enemyData, playerData);
     return 0;
 }

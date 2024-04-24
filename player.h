@@ -23,7 +23,7 @@ struct Player
     SDL_Texture* texture = NULL;
     SDL_Rect rect;
 
-    Animation anim;
+    Animation idle, cast, hurt, die;
 };
 
 struct Cat
@@ -40,7 +40,7 @@ bool loadPlayerData(Player playerData[], SDL_Renderer* gRenderer);
 
 void selectPlayer(int id, Cat& cat, Player playerData[], const int SCREEN_WIDTH, const int SCREEN_HEIGHT);
 
-void drawPlayer(Cat& cat, SDL_Renderer* gRenderer, Player playerData[]);
+//void drawPlayer(Cat& cat, SDL_Renderer* gRenderer, Player playerData[]);
 
 
 
