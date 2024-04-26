@@ -203,7 +203,7 @@ void damageEnemy(std::vector<EnemyClone>& enemies, Enemy enemyData[], int code, 
 
 //    std::cout << (enemies.size()) - (updatedEnemies.size()) << std::endl;
 
-    totalScore += enemies.size() - updatedEnemies.size();
+    totalScore += (enemies.size() - updatedEnemies.size()) * (enemies.size() - updatedEnemies.size());
 
     enemies.clear();
     for(EnemyClone ec : updatedEnemies)
