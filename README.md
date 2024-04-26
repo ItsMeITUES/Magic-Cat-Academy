@@ -30,7 +30,7 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
 
 ![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/blob/main/images/MCA%20Screenshots/startMenu.png)
 
-- Click vào nút "Play" để bắt đầu chơi
+- Click vào nút "Play" hình tròn bên dưới để bắt đầu chơi
 
 ## 2. Các thành phần trong game
 ### a. Người chơi
