@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1714139190 source:e:\mca\main.cpp
+1714142541 source:e:\mca\main.cpp
 	"headers/shapes.h"
 	"headers/recognizer.h"
 	"headers/comparer.h"
