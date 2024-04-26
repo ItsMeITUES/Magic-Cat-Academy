@@ -63,12 +63,14 @@
 		<Unit filename="headers/recognizer.h" />
 		<Unit filename="headers/score.h" />
 		<Unit filename="headers/shapes.h" />
+		<Unit filename="headers/tracer.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="music.cpp" />
 		<Unit filename="player.cpp" />
 		<Unit filename="recognizer.cpp" />
 		<Unit filename="score.cpp" />
 		<Unit filename="shapes.cpp" />
+		<Unit filename="tracer.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

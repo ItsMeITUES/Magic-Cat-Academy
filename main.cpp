@@ -217,6 +217,8 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
                 {
                     playButton.sound.playChunk();
 
+                    mousePos.clear();
+
                     scoreText.free();
                     totalScore = 0;
                     renderScore(totalScore, scoreString, scoreText, gRenderer);
@@ -267,6 +269,8 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
                 if(restartButton.mouseDownHere && restartButton.mouseUpHere)
                 {
                     restartButton.sound.playChunk();
+
+                    mousePos.clear();
 
                     scoreText.free();
                     totalScore = 0;
