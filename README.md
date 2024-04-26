@@ -11,7 +11,7 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
   * [a. Người chơi](#a-người-chơi)
   * [b. Kẻ địch](#b-kẻ-địch)
   * [c. Khác](#c-khác)
-- [3. Điều khiển và gameplay](#3-điều-khiển-và-gameplay)
+- [3. Cách chơi và gameplay](#3-cách-chơi-và-gameplay)
 - [4. Một vài hình ảnh trong game](#4-một-vài-hình-ảnh-trong-game)
 - [5. Về source code của game](#5-về-source-code-của-game)
 
@@ -28,36 +28,55 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
 
 - Màn hình chính:
 
-![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/blob/main/images/MCA%20Screenshots/startMenu.png)
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/5376b834-bbcf-483a-a04c-d80a6ba7f484)
 
-- Click vào nút "Play" hình tròn bên dưới để bắt đầu chơi
+- Click vào nút "Play" hình tròn bên dưới để bắt đầu chơi.
 
 ## 2. Các thành phần trong game
 ### a. Người chơi
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/075a0643-059e-4235-9a3e-48c422fe793b)
+
 - Mimo: là chú mèo phép thuật được người chơi điều khiển để đánh bại kẻ địch.
 - Sử dụng chuột để vẽ những hình trên đầu những con ma. Tiêu diệt ma để nhận điểm.
 - Để ma chạm phải, Mimo sẽ thua.
 - "Mimo chỉ có một mạng duy nhất, không như những chú mèo khác, có lẽ do nó đã đánh đổi lấy ma thuật."
 ### b. Kẻ địch
+- Kẻ địch có nhiều loại, có thể kể đến như:
+  
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/3345be69-ffff-4b56-b793-87438867b12c)
+
 - Ma thường: loại ma yếu, ít máu, tốc độ nhanh.
-- Ma Elite: ma mạnh hơn, nhiều máu hơn, tốc độ chậm hơn.
+
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/d2f4ae5b-eafc-447a-a92e-ab88e0859827)
+
+- Ma Elite: ma mạnh hơn, nhiều máu hơn, tốc độ chậm.
 - Các kẻ địch sẽ trở nên hung hãn hơn, nhiều máu hơn, di chuyển nhanh hơn mỗi khi đồng minh của chúng bị hạ gục.
 - "Có lẽ nào bọn ma đến từ Hư Không?"
 ### c. Khác
+
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/5de3e074-4c21-4bd6-b9ee-6f4db933d29d)
+
 - Score: số điểm Mimo đang có.
-- Tiêu diệt 2 hoặc nhiều hơn kẻ địch bằng một lần vẽ sẽ tạo thành Combo, cho thêm nhiều điểm hơn.
+- Tiêu diệt 2 hoặc nhiều kẻ địch bằng một lần vẽ sẽ tạo thành Combo, cho thêm nhiều điểm hơn.
 
-## 3. Điều khiển và gameplay
+## 3. Cách chơi và gameplay
 
-- Điều khiển:
+- Cách chơi:
   * Mimo đứng im không di chuyển. Bạn sẽ giúp Mimo bằng cách dùng chuột vẽ hình trên đầu những con ma.
+  * ![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/41e8be41-e098-454c-a323-071c8c7a0e8e)
+
+  * Nhẫn giữ chuột để vẽ, thả nút chuột khi bạn vẽ xong.
   * Mimo sẽ giúp bạn chuyển những hình vẽ thành phép thuật, tiêu diệt những con ma. 
 - Về gameplay:
   * Bọn ma sẽ liên tục xuất hiện hòng trêu chọc Mimo. Nhiệm vụ của bạn và Mimo là trụ vững được lâu nhất có thể. 
    
 ## 4. Một vài hình ảnh trong game
 ![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/dd767b5b-b22a-4c71-8402-4e89f1daf84e)
+
 ![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/f45d0938-52e2-49cc-8eae-6c8c1b4b757c)
+
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/29d95482-ee05-4255-9ef0-2a4754292653)
+
 ![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/3c4a898b-1d37-4956-a49a-b7e64a6e455c)
 
 
@@ -72,7 +91,8 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
   * player: xử lí thông tin của người chơi.
   * score: xử lí điểm, in điểm.
   * recognizer: thuật toán xử lí nhận dạng, khử nhiễu, encode hình vẽ.
-  * comparer: so sánh, sủ dụng MLD quyết định hình vẽ được chọn. 
+  * comparer: so sánh, sủ dụng MLD quyết định hình vẽ được chọn.
+  * tracer: biểu diễn một cách cơ bản hình mà bạn định vẽ.
 - Folder animation: lưu các spitesheet cho animation
   * blackCat: các spitesheet của Mimo.
 - Folder data: lưu các thông số khởi tạo và đường dẫn file
