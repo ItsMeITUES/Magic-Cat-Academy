@@ -28,7 +28,7 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
 
 - Màn hình chính:
 
-![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/blob/main/images/backgrounds/gameStart.png)
+![image](https://drive.google.com/drive/u/0/folders/1dDT_xgrBK_CLlnaxIwCCIfo9bJs58PS2)
 
 - Click vào nút "Play" để bắt đầu chơi
 
