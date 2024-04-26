@@ -28,7 +28,7 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
 
 - Màn hình chính:
 
-![image](https://drive.google.com/file/d/1Miucp_8sGjY150t-HQmVNn_Q61H4zoN2/view?usp=sharing)
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/blob/main/images/MCA%20Screenshots/startMenu.png)
 
 - Click vào nút "Play" để bắt đầu chơi
 
@@ -56,6 +56,10 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
   * Bọn ma sẽ liên tục xuất hiện hòng trêu chọc Mimo. Nhiệm vụ của bạn và Mimo là trụ vững được lâu nhất có thể. 
    
 ## 4. Một vài hình ảnh trong game
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/dd767b5b-b22a-4c71-8402-4e89f1daf84e)
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/f45d0938-52e2-49cc-8eae-6c8c1b4b757c)
+![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/3c4a898b-1d37-4956-a49a-b7e64a6e455c)
+
 
 ## 5. Về source code của game
 - Các C++ source file:
