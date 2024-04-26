@@ -28,7 +28,7 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
 
 - Màn hình chính:
 
-![image](https://drive.google.com/drive/u/0/folders/1dDT_xgrBK_CLlnaxIwCCIfo9bJs58PS2)
+![image](https://drive.google.com/file/d/1Miucp_8sGjY150t-HQmVNn_Q61H4zoN2/view?usp=sharing)
 
 - Click vào nút "Play" để bắt đầu chơi
 
