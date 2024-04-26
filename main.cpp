@@ -122,6 +122,8 @@ bool loadMedia()
     playButton.setPos(350, 270);
     playButton.texture.loadFromFile(playButton.path, gRenderer);
 
+    playButton.sound.loadChunk("music/button.wav");
+
     restartButton.path = "images/button/restart_button.png";
     restartButton.type = "circle";
     restartButton.scaler = restart_button_scale;
@@ -129,12 +131,16 @@ bool loadMedia()
     restartButton.setPos(525, 300);
     restartButton.texture.loadFromFile(restartButton.path, gRenderer);
 
+    restartButton.sound.loadChunk("music/button.wav");
+
     homeButton.path = "images/button/home_button.png";
     homeButton.type = "circle";
     homeButton.scaler = home_button_scale;
     homeButton.setRect(0, 0, 200, 200);
     homeButton.setPos(670, 300);
     homeButton.texture.loadFromFile(homeButton.path, gRenderer);
+
+    homeButton.sound.loadChunk("music/button.wav");
 
     scoreText.loadFont("fonts/00803_AbrazoScriptSSiBold.ttf", 50);
 
@@ -203,6 +209,8 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
 
                 if(playButton.mouseDownHere && playButton.mouseUpHere)
                 {
+                    playButton.sound.playChunk();
+
                     scoreText.free();
                     totalScore = 0;
                     renderScore(totalScore, scoreString, scoreText, gRenderer);
@@ -252,6 +260,8 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
 
                 if(restartButton.mouseDownHere && restartButton.mouseUpHere)
                 {
+                    restartButton.sound.playChunk();
+
                     scoreText.free();
                     totalScore = 0;
                     renderScore(totalScore, scoreString, scoreText, gRenderer);
@@ -268,6 +278,8 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
 
                 if(homeButton.mouseDownHere && homeButton.mouseUpHere)
                 {
+                    homeButton.sound.playChunk();
+
                     gameState = 0;
 
                     overTheme.stopMusic();

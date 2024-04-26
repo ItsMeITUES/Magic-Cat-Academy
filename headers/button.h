@@ -2,7 +2,7 @@
 #define __BUTTON
 
 #include "animation.h"
-
+#include "music.h"
 #include <string>
 
 struct button
@@ -15,6 +15,8 @@ struct button
     double scaler;
 
     bool mouseDownHere = 0, mouseUpHere = 0;
+
+    SFX sound;
 
     void setRect(int x, int y, int w, int h)
     {
