@@ -1,4 +1,5 @@
-#include "enemy.h"
+#include "headers/enemy.h"
+#include "headers/score.h"
 #include <fstream>
 
 const int SCREEN_WIDTH = 800;
@@ -30,7 +31,8 @@ bool loadEnemyData(Enemy enemyData[], SDL_Renderer* gRenderer)
     for(int i = 1; i <= Total; i++)
     {
         inFile >> enemyData[i].id >> enemyData[i].name
-        >> enemyData[i].spawnCD >> enemyData[i].health >> enemyData[i].speed;
+        >> enemyData[i].spawnCD >> enemyData[i].health >> enemyData[i].speed
+        >> enemyData[i].coolDown;
 
         std::string path;
         inFile >> path;
@@ -51,7 +53,7 @@ bool loadEnemyData(Enemy enemyData[], SDL_Renderer* gRenderer)
     return success;
 }
 
-EnemyClone spawnEnemy(Enemy enemyData[], enemyType type, int spawnX, int spawnY, int desX, int desY)
+EnemyClone spawnEnemy(Enemy enemyData[], int type, int spawnX, int spawnY, int desX, int desY)
 {
     EnemyClone now;
 
@@ -66,19 +68,25 @@ EnemyClone spawnEnemy(Enemy enemyData[], enemyType type, int spawnX, int spawnY,
     now.rect.w /= scaleDown;
     now.rect.h /= scaleDown;
 
+    bool isUsed[healthType + 1];
+    for(int i = 0; i < healthType; i++) isUsed[i] = 0;
     for(int i = 1; i <= now.health; i++)
     {
-        now.hpBar += char(rand() % healthType + '1');
+        int c = rand() % healthType;
+        while(isUsed[c]) c = rand() % healthType;
+        isUsed[c] = 1;
+
+        now.hpBar += char(c + '1');
     }
 
-    now.rect.x = spawnX;
-    now.rect.y = spawnY;
+    now.rect.x = spawnX - now.rect.w / 2;
+    now.rect.y = spawnY - now.rect.h / 2;
 
     now.posX = spawnX;
     now.posY = spawnY;
 
-    int diffX = desX - spawnX;
-    int diffY = desY - spawnY;
+    double diffX = desX - spawnX;
+    double diffY = desY - spawnY;
 
     double distance = sqrt(diffX * diffX + diffY * diffY);
 
@@ -103,8 +111,8 @@ void handleBasicEnemy(std::vector<EnemyClone>& enemies, int& gameState)
     {
         enemies[i].posX += enemies[i].moveX;
         enemies[i].posY += enemies[i].moveY;
-        enemies[i].rect.x = enemies[i].posX;
-        enemies[i].rect.y = enemies[i].posY;
+        enemies[i].rect.x = enemies[i].posX - enemies[i].rect.w / 2;
+        enemies[i].rect.y = enemies[i].posY - enemies[i].rect.h / 2;
 
         double dx = (enemies[i].posX - SCREEN_WIDTH / 2);
         double dy = (enemies[i].posY - SCREEN_HEIGHT / 2);
@@ -128,7 +136,7 @@ void enemySpawner(Enemy enemyData[], std::vector<EnemyClone>& enemies, int Scree
 
     for(int i = 1; i <= Total; i++)
     {
-        if(timeNow - enemyData[i].spawnCD > basicEnemyDelay)
+        if(timeNow - enemyData[i].spawnCD > enemyData[i].coolDown + (rand() % 4000 - 2000))
         {
             int spawnX = 0, spawnY = 0;
 
@@ -143,7 +151,7 @@ void enemySpawner(Enemy enemyData[], std::vector<EnemyClone>& enemies, int Scree
                 spawnY = -50  + (rand() % 2) * (ScreenH + 50);
             }
 
-            EnemyClone newEnemy = spawnEnemy(enemyData, basicEnemy, spawnX, spawnY, ScreenW / 2, ScreenH / 2);
+            EnemyClone newEnemy = spawnEnemy(enemyData, enemyData[i].id, spawnX, spawnY, ScreenW / 2, ScreenH / 2);
             enemies.push_back(newEnemy);
 
             enemyData[i].spawnCD = timeNow;
@@ -151,7 +159,7 @@ void enemySpawner(Enemy enemyData[], std::vector<EnemyClone>& enemies, int Scree
     }
 }
 
-void damageEnemy(std::vector<EnemyClone>& enemies, int code)
+void damageEnemy(std::vector<EnemyClone>& enemies, int code, int& totalScore)
 {
     int totalEnemy = enemies.size();
     std::vector<EnemyClone> updatedEnemies;
@@ -186,6 +194,9 @@ void damageEnemy(std::vector<EnemyClone>& enemies, int code)
 //    std::cout << std::endl;
 
 //    std::cout << (enemies.size()) - (updatedEnemies.size()) << std::endl;
+
+    totalScore += enemies.size() - updatedEnemies.size();
+
     enemies.clear();
     for(EnemyClone ec : updatedEnemies)
     {
@@ -213,8 +224,8 @@ void drawEnemy(shape shapeData[], Enemy enemyData[], std::vector<EnemyClone>& en
         hpRect.w = scaler * shapeData[1].rect.w;
         hpRect.h = scaler * shapeData[1].rect.h;
 
-        hpRect.x = enemies[i].posX ;
-        hpRect.y = enemies[i].posY - hpRect.h;
+        hpRect.x = enemies[i].posX - enemies[i].rect.w / 2;
+        hpRect.y = enemies[i].posY - hpRect.h - enemies[i].rect.h / 2;
 
         if(enemies[i].health % 2) hpRect.x -= hpRect.w / 2;
         hpRect.x -= (enemies[i].health) / 2 * hpRect.w;

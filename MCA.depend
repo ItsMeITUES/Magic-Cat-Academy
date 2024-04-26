@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1713981772 source:e:\mca\main.cpp
-	"shapes.h"
-	"recognizer.h"
-	"comparer.h"
-	"enemy.h"
-	"animation.h"
-	"player.h"
-	"button.h"
+1714098922 source:e:\mca\main.cpp
+	"headers/shapes.h"
+	"headers/recognizer.h"
+	"headers/comparer.h"
+	"headers/enemy.h"
+	"headers/animation.h"
+	"headers/player.h"
+	"headers/button.h"
+	"headers/score.h"
 
 1709799579 source:e:\mca\06_extension_libraries_and_loading_other_image_formats.cpp
 	<SDL.h>
@@ -20,8 +21,8 @@
 	<SDL_image.h>
 	<string>
 
-1710841651 source:e:\mca\shapes.cpp
-	"shapes.h"
+1713982982 source:e:\mca\shapes.cpp
+	"headers/shapes.h"
 	<fstream>
 
 1710324163 source:e:\mca\recog.cpp
@@ -42,16 +43,16 @@
 	<string>
 	<fstream>
 
-1713980733 source:e:\mca\comparer.cpp
-	"comparer.h"
+1713982953 source:e:\mca\comparer.cpp
+	"headers/comparer.h"
 
 1712808186 e:\mca\comparer.h
 	<iostream>
 	<string>
 	"shapes.h"
 
-1710697998 source:e:\mca\recognizer.cpp
-	"recognizer.h"
+1713982979 source:e:\mca\recognizer.cpp
+	"headers/recognizer.h"
 
 1712808064 e:\mca\recognizer.h
 	<iostream>
@@ -59,8 +60,9 @@
 	<string>
 	<fstream>
 
-1713981820 source:e:\mca\enemy.cpp
-	"enemy.h"
+1714098891 source:e:\mca\enemy.cpp
+	"headers/enemy.h"
+	"headers/score.h"
 	<fstream>
 
 1713981760 e:\mca\enemy.h
@@ -75,17 +77,17 @@
 	<random>
 	<time.h>
 
-1713927251 source:e:\mca\player.cpp
-	"player.h"
-	"animation.h"
+1713982976 source:e:\mca\player.cpp
+	"headers/player.h"
+	"headers/animation.h"
 	<fstream>
 
 1713923956 e:\mca\player.h
 	"shapes.h"
 	"animation.h"
 
-1713956342 source:e:\mca\animation.cpp
-	"animation.h"
+1714067695 source:e:\mca\animation.cpp
+	"headers/animation.h"
 
 1713979012 e:\mca\animation.h
 	<iostream>
@@ -906,6 +908,136 @@
 	"begin_code.h"
 	"close_code.h"
 
-1713964302 source:e:\mca\button.cpp
-	"button.h"
+1713982944 source:e:\mca\button.cpp
+	"headers/button.h"
+
+1713982933 source:e:\mca\sources\animation.cpp
+	"headers/animation.h"
+
+1713979012 e:\mca\sources\headers\animation.h
+	<iostream>
+	<string>
+	<vector>
+	<SDL.h>
+	<SDL_image.h>
+
+1713982944 source:e:\mca\sources\button.cpp
+	"headers/button.h"
+
+1713973870 e:\mca\sources\headers\button.h
+	"animation.h"
+	<string>
+
+1713982953 source:e:\mca\sources\comparer.cpp
+	"headers/comparer.h"
+
+1712808186 e:\mca\sources\headers\comparer.h
+	<iostream>
+	<string>
+	"shapes.h"
+
+1713841480 e:\mca\sources\headers\shapes.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<string>
+
+1713982958 source:e:\mca\sources\enemy.cpp
+	"headers/enemy.h"
+	<fstream>
+
+1713981760 e:\mca\sources\headers\enemy.h
+	"shapes.h"
+	"animation.h"
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<string>
+	<vector>
+	<cmath>
+	<random>
+	<time.h>
+
+1713982972 source:e:\mca\sources\main.cpp
+	"headers/shapes.h"
+	"headers/recognizer.h"
+	"headers/comparer.h"
+	"headers/enemy.h"
+	"headers/animation.h"
+	"headers/player.h"
+	"headers/button.h"
+
+1712808064 e:\mca\sources\headers\recognizer.h
+	<iostream>
+	<vector>
+	<string>
+	<fstream>
+
+1713923956 e:\mca\sources\headers\player.h
+	"shapes.h"
+	"animation.h"
+
+1713982976 source:e:\mca\sources\player.cpp
+	"headers/player.h"
+	"headers/animation.h"
+	<fstream>
+
+1713982979 source:e:\mca\sources\recognizer.cpp
+	"headers/recognizer.h"
+
+1713982982 source:e:\mca\sources\shapes.cpp
+	"headers/shapes.h"
+	<fstream>
+
+1714067578 e:\mca\headers\animation.h
+	<SDL_ttf.h>
+	<iostream>
+	<string>
+	<vector>
+	<SDL.h>
+	<SDL_image.h>
+
+1713973870 e:\mca\headers\button.h
+	"animation.h"
+	<string>
+
+1712808186 e:\mca\headers\comparer.h
+	<iostream>
+	<string>
+	"shapes.h"
+
+1713841480 e:\mca\headers\shapes.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<string>
+
+1714037528 e:\mca\headers\enemy.h
+	"shapes.h"
+	"animation.h"
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<string>
+	<vector>
+	<cmath>
+	<random>
+	<time.h>
+
+1712808064 e:\mca\headers\recognizer.h
+	<iostream>
+	<vector>
+	<string>
+	<fstream>
+
+1713923956 e:\mca\headers\player.h
+	"shapes.h"
+	"animation.h"
+
+1714098748 source:e:\mca\score.cpp
+	"headers/score.h"
+
+1714098756 e:\mca\headers\score.h
+	"animation.h"
+	<string>
 

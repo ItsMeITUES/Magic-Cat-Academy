@@ -1,5 +1,5 @@
-#include "player.h"
-#include "animation.h"
+#include "headers/player.h"
+#include "headers/animation.h"
 #include <fstream>
 
 bool loadPlayerData(Player playerData[], SDL_Renderer* gRenderer)

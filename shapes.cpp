@@ -1,4 +1,4 @@
-#include "shapes.h"
+#include "headers/shapes.h"
 #include <fstream>
 
 bool loadShapeData(shape shapeData[], SDL_Renderer* gRenderer)

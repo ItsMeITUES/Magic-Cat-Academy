@@ -1,10 +1,11 @@
-#include "shapes.h"
-#include "recognizer.h"
-#include "comparer.h"
-#include "enemy.h"
-#include "animation.h"
-#include "player.h"
-#include "button.h"
+#include "headers/shapes.h"
+#include "headers/recognizer.h"
+#include "headers/comparer.h"
+#include "headers/enemy.h"
+#include "headers/animation.h"
+#include "headers/player.h"
+#include "headers/button.h"
+#include "headers/score.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 450;
@@ -23,6 +24,8 @@ int gameState = 0;
 // 2 - game over
 
 int totalScore = 0;
+LTexture scoreText;
+std::string scoreString = "-1";
 
 SDL_Window* gWindow = NULL;
 
@@ -47,35 +50,39 @@ bool init()
         std::cout << "SDL failed to initialize! SDL Error: " << SDL_GetError();
         success = 0;
     }
+    if( TTF_Init() == -1 )
+    {
+        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        success = 0;
+    }
+
+    gWindow = SDL_CreateWindow("Magic Cat Academy", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    if(gWindow == NULL)
+    {
+        std::cout << "Cannot create Window! SDL Error: " << SDL_GetError();
+        success = 0;
+    }
     else
     {
-        gWindow = SDL_CreateWindow("Magic Cat Academy", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-        if(gWindow == NULL)
+        gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+        if(gRenderer == NULL)
         {
-            std::cout << "Cannot create Window! SDL Error: " << SDL_GetError();
+            std::cout << "Cannot create Renderer! SDL Error: " << SDL_GetError();
             success = 0;
         }
         else
         {
-            gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
-            if(gRenderer == NULL)
-            {
-                std::cout << "Cannot create Renderer! SDL Error: " << SDL_GetError();
-                success = 0;
-            }
-            else
-            {
-                SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+            SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-                int imgFlags = IMG_INIT_PNG;
-                if(!(IMG_Init(imgFlags) && imgFlags))
-                {
-                    std::cout << "SDL_image failed to initialize! SDL_image Error: " << IMG_GetError();
-                    success = 0;
-                }
+            int imgFlags = IMG_INIT_PNG;
+            if(!(IMG_Init(imgFlags) && imgFlags))
+            {
+                std::cout << "SDL_image failed to initialize! SDL_image Error: " << IMG_GetError();
+                success = 0;
             }
         }
     }
+
     return success;
 }
 
@@ -116,6 +123,9 @@ bool loadMedia()
     homeButton.setPos(670, 300);
     homeButton.texture.loadFromFile(homeButton.path, gRenderer);
 
+    scoreText.loadFont("fonts/00803_AbrazoScriptSSiBold.ttf", 50);
+
+
 //    SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 
 //    std::cout << playButton.rect.w << playButton.rect.h << std::endl;
@@ -146,6 +156,7 @@ void close(shape shapeData[], Enemy enemyData[], Player playerData[])
     gWindow = NULL;
 
     IMG_Quit();
+    TTF_Quit();
     SDL_Quit();
 }
 
@@ -173,6 +184,9 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
 
                 if(playButton.mouseDownHere && playButton.mouseUpHere)
                 {
+                    scoreText.free();
+                    totalScore = 0;
+                    renderScore(totalScore, scoreString, scoreText, gRenderer);
                     gameState = 1;
                 }
 
@@ -191,8 +205,11 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
                 int finalCode = getClosest(shapeData, answer);
                 if(finalCode != -1)
                 {
+                    int x = totalScore;
         //            std::cout << finalCode << " " << shapeData[finalCode].shapeName << std::endl;
-                    damageEnemy(enemies, finalCode);
+                    damageEnemy(enemies, finalCode, totalScore);
+                    if(totalScore > x)
+                    renderScore(totalScore, scoreString, scoreText, gRenderer);
         //            loadShape(sh, shapeData);
                 }
 
@@ -208,6 +225,9 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
 
                 if(restartButton.mouseDownHere && restartButton.mouseUpHere)
                 {
+                    scoreText.free();
+                    totalScore = 0;
+                    renderScore(totalScore, scoreString, scoreText, gRenderer);
                     gameState = 1;
                 }
 
@@ -301,6 +321,8 @@ int main(int arg, char* args[])
 
 //        playButton.texture.render(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, gRenderer, &playButton.rect, playButton.scaler);
 
+        scoreText.renderText(gRenderer, ( SCREEN_WIDTH - scoreText.getWidth() ) / 2, ( SCREEN_HEIGHT - scoreText.getHeight() ) / 2);
+
         switch(gameState)
         {
             case 0:
@@ -317,10 +339,12 @@ int main(int arg, char* args[])
 
                 handleBasicEnemy(enemies, gameState);
 
-                drawEnemy(shapeData, enemyData, enemies, gRenderer);
-
                 if(isMouseDown) playAnimation(playerData[cat.id].cast, gRenderer, cat.posX, cat.posY, player_scale);
                 else playAnimation(playerData[cat.id].idle, gRenderer, cat.posX, cat.posY, player_scale);
+
+                drawEnemy(shapeData, enemyData, enemies, gRenderer);
+
+                scoreText.renderText(gRenderer, 0, 0);
             }break;
 
             case 2:
@@ -330,10 +354,11 @@ int main(int arg, char* args[])
                 restartButton.texture.render(restartButton.posX, restartButton.posY, gRenderer, &restartButton.rect, restartButton.scaler);
 
                 homeButton.texture.render(homeButton.posX, homeButton.posY, gRenderer, &homeButton.rect, homeButton.scaler);
+
+                scoreText.renderText(gRenderer, 510, 170);
             }break;
 
             default:{}
-
         }
 
         SDL_RenderPresent(gRenderer);
@@ -341,6 +366,7 @@ int main(int arg, char* args[])
         double processTime = SDL_GetTicks() - prevTime;
         SDL_Delay(1000/fps - 0.001 * processTime);
     }
+
     close(shapeData, enemyData, playerData);
     return 0;
 }

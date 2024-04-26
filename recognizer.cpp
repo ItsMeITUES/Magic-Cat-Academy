@@ -1,4 +1,4 @@
-#include "recognizer.h"
+#include "headers/recognizer.h"
 
 void addCalculated(std::string& directionCode, double& dir, bool dx0, bool dy0)
 {

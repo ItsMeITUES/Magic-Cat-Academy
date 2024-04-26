@@ -1,7 +1,19 @@
-1
+2
 
 1
 normalGhost
--5000 1 1
+0 1 1.5
+3000
 images/enemy/basic_normal.png
 197 253
+
+2
+eliteGhost
+0 5 1
+10000
+images/enemy/basic_normal.png
+197 253
+
+3
+bossGhost
+0 15
