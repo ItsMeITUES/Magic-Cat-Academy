@@ -19,7 +19,7 @@ images\shapes\arrow_down.png
 images\shapes\zed.png
 050 414 747 05670
 
-6 2 3 circle
+6 2 4 circle
 images\shapes\circle.png
 456701234 076543210
 

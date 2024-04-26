@@ -1,5 +1,6 @@
 #include "headers/enemy.h"
 #include "headers/score.h"
+
 #include <fstream>
 
 const int SCREEN_WIDTH = 800;
@@ -46,6 +47,10 @@ bool loadEnemyData(Enemy enemyData[], SDL_Renderer* gRenderer)
         }
 
         inFile >> enemyData[i].rect.w >> enemyData[i].rect.h;
+
+        inFile >> path;
+//        std::cout << path << std::endl;
+        enemyData[i].die.loadChunk(path.c_str());
     }
 
     inFile.close();
@@ -104,7 +109,7 @@ EnemyClone spawnEnemy(Enemy enemyData[], int type, int spawnX, int spawnY, int d
     return now;
 }
 
-void handleBasicEnemy(std::vector<EnemyClone>& enemies, int& gameState)
+void handleBasicEnemy(std::vector<EnemyClone>& enemies, int& gameState, SFX& playTheme)
 {
     int totalEnemy = enemies.size();
     for(int i = 0; i < totalEnemy; i++)
@@ -120,6 +125,8 @@ void handleBasicEnemy(std::vector<EnemyClone>& enemies, int& gameState)
         if(dx * dx + dy * dy <= overDistance * overDistance)
         {
             gameState = 2;
+
+            playTheme.stopMusic();
 
             enemies.clear();
 
@@ -159,7 +166,7 @@ void enemySpawner(Enemy enemyData[], std::vector<EnemyClone>& enemies, int Scree
     }
 }
 
-void damageEnemy(std::vector<EnemyClone>& enemies, int code, int& totalScore)
+void damageEnemy(std::vector<EnemyClone>& enemies, Enemy enemyData[], int code, int& totalScore)
 {
     int totalEnemy = enemies.size();
     std::vector<EnemyClone> updatedEnemies;
@@ -188,6 +195,7 @@ void damageEnemy(std::vector<EnemyClone>& enemies, int code, int& totalScore)
         enemies[i].hpBar = calculatedHP;
 
         if(enemies[i].health > 0) updatedEnemies.push_back(enemies[i]);
+//        else enemyData[i].die.playChunk();
 //        else std::cout << "aa" << updatedEnemies.size() << std::endl;
 //        std::cout << i << enemies[i].moveX << " " << enemies[i].moveY << std::endl;
     }

@@ -31,11 +31,16 @@ bool loadPlayerData(Player playerData[], SDL_Renderer* gRenderer)
 
         inFile >> playerData[i].special;
 
-        std::string path;
-        inFile >> path;
 
         inFile >> playerData[i].rect.w;
         inFile >> playerData[i].rect.h;
+
+        //cast sound
+        std::string path;
+        inFile >> path;
+//        std::cout << path << std::endl;
+        playerData[i].casted.loadChunk(path.c_str());
+//        Mix_VolumeChunk(playerData[i].casted.chunk, 100);
     }
     inFile.close();
 

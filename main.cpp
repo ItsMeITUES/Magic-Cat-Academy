@@ -6,38 +6,45 @@
 #include "headers/player.h"
 #include "headers/button.h"
 #include "headers/score.h"
+#include "headers/music.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 450;
 const std::string SCREEN_TITLE = "Magic Cat Academy";
 
+SDL_Window* gWindow = NULL;
+
+SDL_Renderer* gRenderer = NULL;
 const int fps = 60;
 
-double player_scale = 0.5;
-double play_button_scale = 0.5;
-double restart_button_scale = 0.5;
-double home_button_scale = 0.5;
+SFX menuTheme;
+SFX playTheme;
+SFX overTheme;
 
 int gameState = 0;
 // 0 - start menu
 // 1 - playing
 // 2 - game over
 
+//score system
 int totalScore = 0;
 LTexture scoreText;
 std::string scoreString = "-1";
 
-SDL_Window* gWindow = NULL;
-
-SDL_Renderer* gRenderer = NULL;
-
+//backgrounds
 SDL_Texture* gameStart = NULL;
 SDL_Texture* gamePlay = NULL;
 SDL_Texture* gameOver = NULL;
 
+//buttons
 button playButton;
 button restartButton;
 button homeButton;
+
+double player_scale = 0.5;
+double play_button_scale = 0.5;
+double restart_button_scale = 0.5;
+double home_button_scale = 0.5;
 
 bool isMouseDown = 0;
 
@@ -45,7 +52,7 @@ bool init()
 {
     bool success = 1;
 
-    if((SDL_Init(SDL_INIT_VIDEO) < 0))
+    if(( SDL_INIT_VIDEO | SDL_INIT_AUDIO )< 0)
     {
         std::cout << "SDL failed to initialize! SDL Error: " << SDL_GetError();
         success = 0;
@@ -79,6 +86,12 @@ bool init()
             {
                 std::cout << "SDL_image failed to initialize! SDL_image Error: " << IMG_GetError();
                 success = 0;
+            }
+
+            if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+            {
+                printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
+                success = false;
             }
         }
     }
@@ -125,6 +138,11 @@ bool loadMedia()
 
     scoreText.loadFont("fonts/00803_AbrazoScriptSSiBold.ttf", 50);
 
+    menuTheme.loadMusic("music/Ace in the Hole - Honkai： Star Rail 2.0 OST.wav");
+    playTheme.loadMusic("music/The Player on The Other Side · Penacony Battle Theme - Honkai： Star Rail 2.0 OST.wav");
+    overTheme.loadMusic("music/The Big Sleep - Honkai： Star Rail 2.0 OST.wav");
+
+    Mix_VolumeMusic(50);
 
 //    SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 
@@ -157,13 +175,14 @@ void close(shape shapeData[], Enemy enemyData[], Player playerData[])
 
     IMG_Quit();
     TTF_Quit();
+    Mix_Quit();
     SDL_Quit();
 }
 
 std::vector<Pos> mousePos;
 std::string answer = "-1";
 
-void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemies)
+void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemies, Enemy enemyData[], Player playerData[])
 {
     if(e->type == SDL_MOUSEBUTTONDOWN)
     {
@@ -187,7 +206,10 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
                     scoreText.free();
                     totalScore = 0;
                     renderScore(totalScore, scoreString, scoreText, gRenderer);
+                    resetEnemyData(enemyData, 1.2, 1);
                     gameState = 1;
+
+                    menuTheme.stopMusic();
                 }
 
                 playButton.mouseDownHere = 0;
@@ -207,9 +229,14 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
                 {
                     int x = totalScore;
         //            std::cout << finalCode << " " << shapeData[finalCode].shapeName << std::endl;
-                    damageEnemy(enemies, finalCode, totalScore);
+                    damageEnemy(enemies, enemyData, finalCode, totalScore);
+//                    std::cout << playerData[1].casted.getChunk() << std::endl;
+                    playerData[1].casted.playChunk();
                     if(totalScore > x)
-                    renderScore(totalScore, scoreString, scoreText, gRenderer);
+                    {
+                        renderScore(totalScore, scoreString, scoreText, gRenderer);
+                        changeEnemyData(totalScore, enemyData);
+                    }
         //            loadShape(sh, shapeData);
                 }
 
@@ -228,7 +255,10 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
                     scoreText.free();
                     totalScore = 0;
                     renderScore(totalScore, scoreString, scoreText, gRenderer);
+                    resetEnemyData(enemyData, 1.2, 1);
                     gameState = 1;
+
+                    overTheme.stopMusic();
                 }
 
                 restartButton.mouseDownHere = 0;
@@ -239,6 +269,8 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
                 if(homeButton.mouseDownHere && homeButton.mouseUpHere)
                 {
                     gameState = 0;
+
+                    overTheme.stopMusic();
                 }
 
                 homeButton.mouseDownHere = 0;
@@ -314,7 +346,7 @@ int main(int arg, char* args[])
         while(SDL_PollEvent(&e))
         {
             if(e.type == SDL_QUIT) {quit = true; break;}
-            handleEvent(&e, shapeData, enemies);
+            handleEvent(&e, shapeData, enemies, enemyData, playerData);
         }
 
 //        std::cout << gameState << std::endl;
@@ -327,17 +359,21 @@ int main(int arg, char* args[])
         {
             case 0:
             {
+                menuTheme.playMusic();
+
                 SDL_RenderCopy(gRenderer, gameStart, NULL, NULL);
                 playButton.texture.render(playButton.posX, playButton.posY, gRenderer, &playButton.rect, playButton.scaler);
             }break;
 
             case 1:
             {
+                playTheme.playMusic();
+
                 SDL_RenderCopy(gRenderer, gamePlay, NULL, NULL);
 
                 enemySpawner(enemyData, enemies, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-                handleBasicEnemy(enemies, gameState);
+                handleBasicEnemy(enemies, gameState, playTheme);
 
                 if(isMouseDown) playAnimation(playerData[cat.id].cast, gRenderer, cat.posX, cat.posY, player_scale);
                 else playAnimation(playerData[cat.id].idle, gRenderer, cat.posX, cat.posY, player_scale);
@@ -349,6 +385,8 @@ int main(int arg, char* args[])
 
             case 2:
             {
+                overTheme.playMusic();
+
                 SDL_RenderCopy(gRenderer, gameOver, NULL, NULL);
 
                 restartButton.texture.render(restartButton.posX, restartButton.posY, gRenderer, &restartButton.rect, restartButton.scaler);

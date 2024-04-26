@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1714098922 source:e:\mca\main.cpp
+1714111441 source:e:\mca\main.cpp
 	"headers/shapes.h"
 	"headers/recognizer.h"
 	"headers/comparer.h"
@@ -8,6 +8,7 @@
 	"headers/player.h"
 	"headers/button.h"
 	"headers/score.h"
+	"headers/music.h"
 
 1709799579 source:e:\mca\06_extension_libraries_and_loading_other_image_formats.cpp
 	<SDL.h>
@@ -60,7 +61,7 @@
 	<string>
 	<fstream>
 
-1714098891 source:e:\mca\enemy.cpp
+1714111430 source:e:\mca\enemy.cpp
 	"headers/enemy.h"
 	"headers/score.h"
 	<fstream>
@@ -77,7 +78,7 @@
 	<random>
 	<time.h>
 
-1713982976 source:e:\mca\player.cpp
+1714105841 source:e:\mca\player.cpp
 	"headers/player.h"
 	"headers/animation.h"
 	<fstream>
@@ -1012,9 +1013,10 @@
 	<SDL_image.h>
 	<string>
 
-1714037528 e:\mca\headers\enemy.h
+1714111418 e:\mca\headers\enemy.h
 	"shapes.h"
 	"animation.h"
+	"music.h"
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -1030,14 +1032,34 @@
 	<string>
 	<fstream>
 
-1713923956 e:\mca\headers\player.h
+1714103439 e:\mca\headers\player.h
 	"shapes.h"
 	"animation.h"
+	"music.h"
 
-1714098748 source:e:\mca\score.cpp
+1714101906 source:e:\mca\score.cpp
 	"headers/score.h"
+	<fstream>
 
-1714098756 e:\mca\headers\score.h
+1714101763 e:\mca\headers\score.h
 	"animation.h"
+	"enemy.h"
+	<string>
+
+1705857752 e:\external libraries\sdl2_mixer-devel-2.8.0-mingw\sdl2_mixer-2.8.0\x86_64-w64-mingw32\include\sdl2\sdl_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1714105582 source:e:\mca\music.cpp
+	"headers/music.h"
+	<iostream>
+
+1714105135 e:\mca\headers\music.h
+	<SDL_mixer.h>
 	<string>
 

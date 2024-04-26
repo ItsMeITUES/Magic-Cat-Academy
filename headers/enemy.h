@@ -3,6 +3,7 @@
 
 #include "shapes.h"
 #include "animation.h"
+#include "music.h"
 
 #include <iostream>
 #include <SDL.h>
@@ -38,7 +39,8 @@ struct Enemy
     SDL_Texture* texture = NULL;
     SDL_Rect rect;
 
-    Animation idle, hurt, die;
+    Animation idle, hurt;
+    SFX die;
 };
 
 struct EnemyClone
@@ -55,13 +57,13 @@ bool loadEnemyData(Enemy enemyData[], SDL_Renderer* gRenderer);
 
 EnemyClone spawnEnemy(Enemy enemyData[], enemyType type, int spawnX, int spawnY, int desX, int desY);
 
-void handleBasicEnemy(std::vector<EnemyClone>& enemies, int& gameState);
+void handleBasicEnemy(std::vector<EnemyClone>& enemies, int& gameState, SFX& playTheme);
 
 void enemySpawner(Enemy enemyData[], std::vector<EnemyClone>& enemies, int ScreenW, int ScreenH);
 
 void drawEnemy(shape shapeData[], Enemy enemyData[], std::vector<EnemyClone>& enemies, SDL_Renderer* gRenderer);
 
-void damageEnemy(std::vector<EnemyClone>& enemies, int code, int& totalScore);
+void damageEnemy(std::vector<EnemyClone>& enemies, Enemy enemyData[], int code, int& totalScore);
 
 void destroyEnemyTexture(Enemy enemyData[]);
 

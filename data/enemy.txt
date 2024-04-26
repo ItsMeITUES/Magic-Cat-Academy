@@ -2,10 +2,11 @@
 
 1
 normalGhost
-0 1 1.5
+0 1 1.2
 3000
 images/enemy/basic_normal.png
 197 253
+music/ghostDie.wav
 
 2
 eliteGhost
@@ -13,6 +14,7 @@ eliteGhost
 10000
 images/enemy/basic_normal.png
 197 253
+music/ghostDie.wav
 
 3
 bossGhost

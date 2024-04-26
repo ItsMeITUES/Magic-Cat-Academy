@@ -1,5 +1,26 @@
 #include "headers/score.h"
 
+#include <fstream>
+
+void changeEnemyData(int& totalScore, Enemy enemyData[])
+{
+    if(totalScore >= 30)
+    {
+        enemyData[1].health = 2;
+        enemyData[2].health = 6;
+    }
+    enemyData[1].speed *= (1.3 + 100) / 100;
+    enemyData[2].speed *= (1.3 + 100) / 100;
+}
+
+void resetEnemyData(Enemy enemyData[], double spd1, double spd2)
+{
+    enemyData[1].health = 1;
+    enemyData[2].health = 5;
+    enemyData[1].speed = spd1;
+    enemyData[2].speed = spd2;
+}
+
 void renderScore(int& totalScore, std::string& scoreString, LTexture& scoreText, SDL_Renderer* gRenderer)
 {
 //                    totalScore = 999;

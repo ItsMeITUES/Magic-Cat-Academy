@@ -3,6 +3,7 @@
 
 #include "shapes.h"
 #include "animation.h"
+#include "music.h"
 
 const int specialAbility[]=
 {
@@ -24,6 +25,7 @@ struct Player
     SDL_Rect rect;
 
     Animation idle, cast, hurt, die;
+    SFX casted;
 };
 
 struct Cat
