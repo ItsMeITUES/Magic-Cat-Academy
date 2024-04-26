@@ -22,6 +22,7 @@ bool LTexture::loadFromFile(std::string path, SDL_Renderer* gRenderer)
         std::cout << "Cannot load sprite sheet! SDL_img Error: " << IMG_GetError() << std::endl;
         return success;
     }
+    SDL_QueryTexture(mTexture, NULL, NULL, &mWidth, &mHeight);
     return success;
 }
 

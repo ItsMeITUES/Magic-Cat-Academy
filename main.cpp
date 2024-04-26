@@ -7,6 +7,7 @@
 #include "headers/button.h"
 #include "headers/score.h"
 #include "headers/music.h"
+#include "headers/tracer.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 450;
@@ -45,6 +46,9 @@ double player_scale = 0.5;
 double play_button_scale = 0.5;
 double restart_button_scale = 0.5;
 double home_button_scale = 0.5;
+
+// Tracer
+LTexture dot;
 
 bool isMouseDown = 0;
 
@@ -149,6 +153,8 @@ bool loadMedia()
     overTheme.loadMusic("music/The Big Sleep - Honkai： Star Rail 2.0 OST.wav");
 
     Mix_VolumeMusic(50);
+
+    loadTracer(dot, "images/shapes/dot.png", gRenderer);
 
 //    SDL_RenderCopy(gRenderer, gTexture, NULL, NULL);
 
@@ -310,7 +316,7 @@ void handleEvent(SDL_Event *e, shape shapeData[], std::vector<EnemyClone>& enemi
             {
                 Pos mp;
                 SDL_GetMouseState(&mp.x, &mp.y);
-        //        std::cout << mp.x << " " << mp.y << std::endl;
+//                std::cout << mp.x << " " << mp.y << std::endl;
                 mousePos.push_back(mp);
             } break;
 
@@ -355,6 +361,11 @@ int main(int arg, char* args[])
 
         SDL_RenderClear(gRenderer);
 
+//        SDL_RenderCopy(gRenderer, gameStart, NULL, NULL);
+
+//        SDL_Rect dotRect = {0, 0, 30, 30};
+//        dot.render(300, 300, gRenderer, &dotRect, 1);
+
         while(SDL_PollEvent(&e))
         {
             if(e.type == SDL_QUIT) {quit = true; break;}
@@ -393,6 +404,8 @@ int main(int arg, char* args[])
                 drawEnemy(shapeData, enemyData, enemies, gRenderer);
 
                 scoreText.renderText(gRenderer, 0, 0);
+
+                renderTrace(dot, mousePos, gRenderer);
             }break;
 
             case 2:
