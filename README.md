@@ -1,6 +1,5 @@
 # Magic Cat Academy (MCA)
-- Cấu trúc code và thử nghiệm game: 
-- Gameplay: 
+- Cấu trúc code và gameplay:[https://www.youtube.com/watch?v=URoPM_jd3yk&t=12s](https://www.youtube.com/watch?v=URoPM_jd3yk&t=12s)
 
 ## Giới thiệu 
 Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
@@ -10,7 +9,7 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
 - [2. Các thành phần trong game](#2-các-thành-phần-trong-game)
   * [a. Người chơi](#a-người-chơi)
   * [b. Kẻ địch](#b-kẻ-địch)
-  * [c. Khác](#c-khác)
+  * [c. Điểm số](#c-điểm-số)
 - [3. Cách chơi và gameplay](#3-cách-chơi-và-gameplay)
 - [4. Một vài hình ảnh trong game](#4-một-vài-hình-ảnh-trong-game)
 - [5. Về source code của game](#5-về-source-code-của-game)
@@ -52,7 +51,7 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
 - Ma Elite: ma mạnh hơn, nhiều máu hơn, tốc độ chậm.
 - Các kẻ địch sẽ trở nên hung hãn hơn, nhiều máu hơn, di chuyển nhanh hơn mỗi khi đồng minh của chúng bị hạ gục.
 - "Có lẽ nào bọn ma đến từ Hư Không?"
-### c. Khác
+### c. Điểm số
 
 ![image](https://github.com/ItsMeITUES/Magic-Cat-Academy/assets/147250056/5de3e074-4c21-4bd6-b9ee-6f4db933d29d)
 
