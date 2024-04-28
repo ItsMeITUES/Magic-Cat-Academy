@@ -2,9 +2,11 @@
 - Cấu trúc code và gameplay:[https://www.youtube.com/watch?v=URoPM_jd3yk&t=12s](https://www.youtube.com/watch?v=URoPM_jd3yk&t=12s)
 
 ## Giới thiệu 
-Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
+Magic Cat Academy là một game vẽ hình tính điểm. Nhập vai vào chú mèo Mimo, vẽ hình để đẩy lùi cuộc tấn công vô hạn của bọn ma nghịch ngợm.
 
 - [0. Cách tải game](#0-cách-tải-game)
+  * [a. Cách 1: Không bao gồm code](#a-cách-1-không-bao-gồm-code)
+  * [b. Cách 2: Bao gồm code](#b-cách-2-bao-gồm-code)
 - [1. Bắt đầu game](#1-bắt-đầu-game)
 - [2. Các thành phần trong game](#2-các-thành-phần-trong-game)
   * [a. Người chơi](#a-người-chơi)
@@ -15,6 +17,13 @@ Game sinh tồn vô hạn với cơ chế nhận dạng hình vẽ cơ bản.
 - [5. Về source code của game](#5-về-source-code-của-game)
 
 ## 0. Cách tải game
+### a. Cách 1: Không bao gồm code 
+- Tải game được nén thành file .rar tại link sau:
+  [https://drive.google.com/file/d/12YgjOpoGxfewt1wI19t6tpfKJ4lSaBgS](https://drive.google.com/file/d/12YgjOpoGxfewt1wI19t6tpfKJ4lSaBgS/view?usp=sharing)
+
+- Giải nén và chạy file MCA.exe để chơi.
+
+### b. Cách 2: Bao gồm code:
 **Bước 1:** Clone repo này về hoặc chọn Code -> Download Zip
 
 **Bước 2:** Cài codeblocks-20.03mingw
